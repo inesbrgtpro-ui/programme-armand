@@ -141,6 +141,11 @@
   }
   .exo.done-exo{background:var(--done-soft);border-color:transparent}
   .exo-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .exo-thumb{
+    flex:none;width:60px;height:60px;border-radius:10px;overflow:hidden;
+    border:1px solid var(--line);background:#F2F4F1;padding:0;
+  }
+  .exo-thumb img{width:100%;height:100%;object-fit:cover;object-position:12% 50%;display:block}
   .exo-name{font-weight:700;font-size:16px}
   .exo-detail{color:var(--muted);font-size:13px;margin-top:2px}
   .exo-rest{
@@ -212,6 +217,28 @@
   }
   .t-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 
+  /* ---------- Image d'exercice plein écran ---------- */
+  .img-overlay{
+    position:fixed;inset:0;z-index:60;
+    background:rgba(0,0,0,.75);
+    display:none;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .img-overlay.show{display:flex}
+  .img-box{
+    background:#F2F4F1;border-radius:16px;overflow:hidden;
+    max-width:min(520px,100%);width:100%;
+  }
+  .img-box img{width:100%;display:block}
+  .img-box .img-caption{
+    padding:14px 16px;font-weight:700;font-size:16px;color:#17221C;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .img-close{
+    flex:none;font-weight:700;font-size:14px;color:#17221C;
+    border:2px solid #17221C;border-radius:10px;padding:8px 14px;
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important}
   }
@@ -259,6 +286,17 @@
   <button class="reset-btn" id="reset-btn">Remettre la séance à zéro</button>
 </main>
 
+<!-- ======== IMAGE D'EXERCICE ======== -->
+<div class="img-overlay" id="img-overlay" role="dialog" aria-label="Image de l'exercice">
+  <div class="img-box">
+    <img id="img-full" src="" alt="">
+    <div class="img-caption">
+      <span id="img-name"></span>
+      <button class="img-close" id="img-close">Fermer</button>
+    </div>
+  </div>
+</div>
+
 <!-- ======== CHRONO ======== -->
 <div class="timer-overlay" id="timer" role="dialog" aria-label="Chrono de repos">
   <div class="timer-label">Repos</div>
@@ -286,9 +324,8 @@ const PROGRAM = [
       {name:"Développé couché haltères", sets:4, reps:"8-10", rest:120, note:"Descente contrôlée, coudes à ~45°"},
       {name:"Tractions (ou tirage vertical)", sets:4, reps:"6-10", rest:120, note:"Si trop dur : tirage vertical machine"},
       {name:"Développé épaules haltères", sets:3, reps:"10", rest:90, note:""},
-      {name:"Rowing barre ou machine", sets:3, reps:"10-12", rest:90, note:"Dos plat, tire vers le nombril"},
-      {name:"Curl biceps", sets:3, reps:"12", rest:60, note:""},
-      {name:"Extensions triceps", sets:3, reps:"12", rest:60, note:""}
+      {name:"Rowing machine", sets:3, reps:"10-12", rest:90, note:"Poitrine bien appuyée contre le support"},
+      {name:"Curl biceps", sets:3, reps:"12", rest:60, note:""}
     ]
   },
   {
@@ -297,11 +334,10 @@ const PROGRAM = [
     name:"Legs",
     day:"Mercredi",
     exos:[
-      {name:"Squat (barre ou goblet)", sets:4, reps:"8-10", rest:120, note:"Profondeur cuisses parallèles, dos droit"},
-      {name:"Presse à cuisses", sets:3, reps:"10-12", rest:90, note:""},
+      {name:"Presse à cuisses", sets:4, reps:"10-12", rest:120, note:"Dos bien plaqué contre le dossier"},
       {name:"Fentes marchées haltères", sets:3, reps:"10 / jambe", rest:90, note:""},
+      {name:"Leg extension (quadriceps)", sets:3, reps:"12", rest:60, note:"Monte contrôlé, redescends lentement"},
       {name:"Leg curl (ischios)", sets:3, reps:"12", rest:60, note:""},
-      {name:"Mollets debout", sets:3, reps:"15", rest:45, note:""},
       {name:"Gainage planche", sets:3, reps:"45 s", rest:45, note:"Corps bien aligné, ne creuse pas le dos"}
     ]
   },
@@ -311,11 +347,11 @@ const PROGRAM = [
     name:"Full body",
     day:"Vendredi ou samedi",
     exos:[
-      {name:"Soulevé de terre roumain", sets:3, reps:"10", rest:120, note:"Léger. Technique parfaite obligatoire"},
+      {name:"Tirage vertical (dos)", sets:3, reps:"10-12", rest:90, note:"Tire la barre vers le haut de la poitrine"},
       {name:"Développé incliné", sets:3, reps:"10", rest:90, note:""},
-      {name:"Tirage horizontal", sets:3, reps:"12", rest:90, note:""},
-      {name:"Élévations latérales", sets:3, reps:"15", rest:45, note:"Léger, sans balancier"},
-      {name:"Relevés de jambes suspendu", sets:3, reps:"12", rest:60, note:""}
+      {name:"Tirage horizontal (dos)", sets:3, reps:"12", rest:90, note:"Dos droit, tire vers le ventre"},
+      {name:"Relevés de jambes suspendu (abdos)", sets:3, reps:"12", rest:60, note:""},
+      {name:"Planche latérale (obliques)", sets:2, reps:"30 s / côté", rest:45, note:"Hanches hautes, corps aligné"}
     ]
   }
 ];
@@ -415,9 +451,13 @@ function renderExos(s){
     }
 
     const w = st.weights[i] != null ? st.weights[i] : "";
+    const imgSrc = "img/" + s.id + "-" + i + ".webp";
     card.innerHTML =
       '<div class="exo-head">' +
-        '<div>' +
+        '<button class="exo-thumb" data-img="' + i + '" aria-label="Voir l’exercice en image">' +
+          '<img src="' + imgSrc + '" alt="" loading="lazy">' +
+        '</button>' +
+        '<div style="flex:1">' +
           '<div class="exo-name">' + ex.name + '</div>' +
           '<div class="exo-detail">' + ex.sets + ' séries × ' + ex.reps + ' reps</div>' +
         '</div>' +
@@ -432,6 +472,12 @@ function renderExos(s){
 
   exoListEl.querySelectorAll(".set-btn").forEach(b => {
     b.addEventListener("click", onSetTap);
+  });
+  exoListEl.querySelectorAll(".exo-thumb").forEach(b => {
+    b.addEventListener("click", e => {
+      const i = parseInt(e.currentTarget.getAttribute("data-img"), 10);
+      openImage(s, i);
+    });
   });
   exoListEl.querySelectorAll("input[data-weight]").forEach(inp => {
     inp.addEventListener("change", e => {
@@ -509,6 +555,29 @@ document.getElementById("reset-btn").addEventListener("click", () => {
   const s = PROGRAM.find(x => x.id === currentId);
   renderExos(s);
   bannerEl.classList.remove("show");
+});
+
+/* ---------- Image d'exercice ---------- */
+const imgOverlayEl = document.getElementById("img-overlay");
+const imgFullEl = document.getElementById("img-full");
+const imgNameEl = document.getElementById("img-name");
+
+function openImage(s, i){
+  const ex = s.exos[i];
+  imgFullEl.src = "img/" + s.id + "-" + i + ".webp";
+  imgFullEl.alt = "Démonstration : " + ex.name;
+  imgNameEl.textContent = ex.name;
+  imgOverlayEl.classList.add("show");
+}
+function closeImage(){
+  imgOverlayEl.classList.remove("show");
+}
+document.getElementById("img-close").addEventListener("click", closeImage);
+imgOverlayEl.addEventListener("click", e => {
+  if (e.target === imgOverlayEl) closeImage();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeImage();
 });
 
 /* ---------- Chrono ---------- */

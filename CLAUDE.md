@@ -35,34 +35,37 @@ tout en travaillant chaque muscle **2x par semaine**, avec des séances de
 
 ## Le programme (contenu métier — ne pas modifier sans validation)
 
+**Contrainte validée par Inès (2026-09-18) : protéger le dos d'Armand.**
+Pas de squat barre, pas de soulevé de terre, pas de rowing barre buste penché :
+les exercices dos/jambes se font sur machine ou poulie, buste soutenu ou
+vertical. Séances limitées à 5 exercices.
+
 ### Séance 1 — Push + Pull (lundi)
 | Exercice | Type | Séries × Reps | Repos |
 |---|---|---|---|
 | Développé couché haltères | Push | 4 × 8-10 | 2 min |
 | Tractions (ou tirage vertical) | Pull | 4 × 6-10 | 2 min |
 | Développé épaules haltères | Push | 3 × 10 | 1 min 30 |
-| Rowing barre ou machine | Pull | 3 × 10-12 | 1 min 30 |
+| Rowing machine (appui poitrine) | Pull | 3 × 10-12 | 1 min 30 |
 | Curl biceps | Pull | 3 × 12 | 1 min |
-| Extensions triceps | Push | 3 × 12 | 1 min |
 
 ### Séance 2 — Legs (mercredi)
 | Exercice | Séries × Reps | Repos |
 |---|---|---|
-| Squat (barre ou goblet) | 4 × 8-10 | 2 min |
-| Presse à cuisses | 3 × 10-12 | 1 min 30 |
+| Presse à cuisses | 4 × 10-12 | 2 min |
 | Fentes marchées haltères | 3 × 10/jambe | 1 min 30 |
+| Leg extension (quadriceps) | 3 × 12 | 1 min |
 | Leg curl (ischios) | 3 × 12 | 1 min |
-| Mollets debout | 3 × 15 | 45 s |
 | Gainage planche | 3 × 45 s | 45 s |
 
-### Séance 3 — Full body (vendredi ou samedi)
+### Séance 3 — Full body, axe dos + abdos (vendredi ou samedi)
 | Exercice | Séries × Reps | Repos |
 |---|---|---|
-| Soulevé de terre roumain (léger) | 3 × 10 | 2 min |
+| Tirage vertical (dos) | 3 × 10-12 | 1 min 30 |
 | Développé incliné | 3 × 10 | 1 min 30 |
-| Tirage horizontal | 3 × 12 | 1 min 30 |
-| Élévations latérales | 3 × 15 | 45 s |
-| Relevés de jambes suspendu | 3 × 12 | 1 min |
+| Tirage horizontal (dos) | 3 × 12 | 1 min 30 |
+| Relevés de jambes suspendu (abdos) | 3 × 12 | 1 min |
+| Planche latérale (obliques) | 2 × 30 s/côté | 45 s |
 
 ### Règles d'entraînement (affichées dans l'app)
 - Technique parfaite avant d'augmenter le poids
@@ -88,6 +91,12 @@ programme doit respecter ce principe.
   chaque mise à jour**), `icons/` (haltère orange sur fond sombre).
 - Séances renommées "Push + Pull / Legs / Full body" (ids de stockage
   inchangés : `upper`, `lower`, `full`).
+- Illustrations d'exercices dans `img/`, nommées `<idSéance>-<indexExo>.webp`
+  (ex. `lower-2.webp` = 3e exercice de la séance Legs) : si on réordonne ou
+  remplace des exercices dans `PROGRAM`, renommer les fichiers en conséquence
+  et mettre à jour la liste `PRECACHE` de `sw.js`. Vignette sur chaque carte,
+  tap = image plein écran. Images générées en IA (style flat, silhouette
+  sombre + orange).
 - Mobile-first (utilisé sur téléphone à la salle), thème clair/sombre auto
   (`prefers-color-scheme`), reduced-motion respecté, safe areas iOS gérées.
 - L'ancien artifact Claude (https://claude.ai/artifact/QKaidCkE3d5w19PyzkhEuR)
