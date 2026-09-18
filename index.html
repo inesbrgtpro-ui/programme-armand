@@ -761,7 +761,12 @@ function markCompleted(s){
       if (w != null && w !== "") entry.w = w;
       return entry;
     });
-    state.history.push({ d: new Date().toISOString().slice(0, 10), s: s.id, n: s.name, exos: exos });
+    /* date locale du téléphone (pas UTC : une séance finie à 0h30 doit rester datée du bon jour) */
+    const now = new Date();
+    const dateLocale = now.getFullYear() + "-" +
+      String(now.getMonth() + 1).padStart(2, "0") + "-" +
+      String(now.getDate()).padStart(2, "0");
+    state.history.push({ d: dateLocale, s: s.id, n: s.name, exos: exos });
     save();
   }
   bannerEl.classList.add("show");
