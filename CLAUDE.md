@@ -77,13 +77,20 @@ programme doit respecter ce principe.
 
 ## État actuel
 
-- **v1 : fichier unique** `programme-armand.html` (HTML/CSS/JS vanilla, aucune
-  dépendance hors Google Fonts). Déjà publié en artifact Claude :
-  https://claude.ai/artifact/QKaidCkE3d5w19PyzkhEuR
+- **v2 : PWA installable** destinée à être hébergée sur GitHub Pages et
+  installée sur l'iPhone d'Armand (Safari → Partager → "Sur l'écran d'accueil").
+- Fichiers : `index.html` (app complète, HTML/CSS/JS vanilla, aucune dépendance
+  hors Google Fonts), `manifest.webmanifest`, `sw.js` (service worker,
+  cache-first pour usage hors ligne — **incrémenter la constante `CACHE` à
+  chaque mise à jour**), `icons/` (haltère orange sur fond sombre).
+- Séances renommées "Push + Pull / Legs / Full body" (ids de stockage
+  inchangés : `upper`, `lower`, `full`).
 - Mobile-first (utilisé sur téléphone à la salle), thème clair/sombre auto
-  (`prefers-color-scheme`), reduced-motion respecté.
-- Note : la v1 nomme les séances "Haut du corps / Bas du corps / Full body".
-  À renommer en "Push + Pull / Legs / Full body" (mêmes exercices).
+  (`prefers-color-scheme`), reduced-motion respecté, safe areas iOS gérées.
+- L'ancien artifact Claude (https://claude.ai/artifact/QKaidCkE3d5w19PyzkhEuR)
+  reste en ligne comme aperçu, mais la version de référence est la PWA ;
+  ses données localStorage sont indépendantes (origine différente).
+- Test local : serveur `python3 -m http.server 8642` (config `.claude/launch.json`).
 
 ### Fonctionnalités implémentées
 - Écran d'accueil : 3 cartes de séance avec % de progression + compteur de
@@ -116,14 +123,14 @@ stockage : ne pas les renommer sans migration des données.
 
 ## Pistes d'évolution (backlog)
 
-- [ ] Renommer les séances en "Push + Pull / Legs / Full body" dans l'UI
-      (garder les ids de stockage, ou migrer proprement)
+- [x] Renommer les séances en "Push + Pull / Legs / Full body" dans l'UI
+      (ids de stockage conservés)
+- [x] PWA : manifest + service worker pour installation écran d'accueil et
+      usage hors ligne
 - [ ] Historique par date : log de chaque séance terminée (date, charges) pour
       visualiser la progression dans le temps
 - [ ] Graphique d'évolution des charges par exercice
 - [ ] Export/import des données (changement de téléphone)
-- [ ] PWA : manifest + service worker pour installation écran d'accueil et
-      usage hors ligne
 - [ ] Mode "semaine" : planning lundi/mercredi/vendredi avec rappel du jour
 - [ ] Substitutions d'exercices (machine occupée → alternative proposée)
 - [ ] Volet nutrition/récupération simple (plus tard : le projet global couvre
