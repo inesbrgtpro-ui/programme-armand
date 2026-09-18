@@ -114,6 +114,15 @@
   .session-check{font-size:22px;color:var(--done);display:none}
   .session-card.complete .session-check{display:block}
   .session-card.complete .session-num{color:var(--done)}
+  .progress-link{
+    margin-top:14px;width:100%;text-align:left;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:16px 18px;box-shadow:var(--shadow);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    font-weight:700;font-size:16px;
+  }
+  .progress-link span.arrow{color:var(--accent);font-size:20px}
+  .progress-link .sub{display:block;font-weight:500;font-size:13px;color:var(--muted);margin-top:2px}
 
   .tips{margin-top:30px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
   .tips h3{font-size:15px;font-weight:700;margin-bottom:10px}
@@ -140,6 +149,10 @@
     padding:16px;margin-bottom:12px;box-shadow:var(--shadow);
   }
   .exo.done-exo{background:var(--done-soft);border-color:transparent}
+  .exo-slot{
+    font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+    color:var(--muted);margin-bottom:8px;
+  }
   .exo-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
   .exo-thumb{
     flex:none;width:60px;height:60px;border-radius:10px;overflow:hidden;
@@ -154,7 +167,11 @@
     padding:3px 8px;border-radius:999px;white-space:nowrap;
   }
   .exo-note{font-size:13px;color:var(--muted);margin-top:8px;font-style:italic}
-  .sets-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;align-items:center}
+  .swap-btn{
+    margin-top:8px;font-size:13px;font-weight:600;color:var(--accent);
+    text-decoration:underline;padding:4px 0;
+  }
+  .sets-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center}
   .set-btn{
     width:52px;height:52px;border-radius:14px;
     border:2px solid var(--line);background:var(--bg);
@@ -189,9 +206,101 @@
     text-decoration:underline;padding:8px;
   }
 
+  /* ---------- Progression ---------- */
+  .prog-section{margin-top:26px}
+  .prog-section h2{
+    font-family:var(--display);font-size:22px;text-transform:uppercase;
+    letter-spacing:.5px;margin-bottom:12px;
+  }
+  .prog-card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:12px;
+  }
+  .prog-card .info{flex:1;min-width:0}
+  .prog-card .name{font-weight:700;font-size:15px}
+  .prog-card .delta{font-size:13px;color:var(--muted);margin-top:2px}
+  .prog-card .delta b{color:var(--done);font-weight:700}
+  .prog-card svg{flex:none}
+  .log-entry{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow);
+  }
+  .log-entry .log-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .log-entry .log-date{font-weight:700;font-size:15px}
+  .log-entry .log-session{font-size:13px;font-weight:600;color:var(--accent)}
+  .log-entry .log-detail{font-size:13px;color:var(--muted);margin-top:6px}
+  .prog-empty{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:18px;color:var(--muted);font-size:14px;box-shadow:var(--shadow);
+  }
+
+  /* ---------- Choix d'exercice ---------- */
+  .swap-overlay{
+    position:fixed;inset:0;z-index:60;
+    background:rgba(0,0,0,.55);
+    display:none;align-items:flex-end;justify-content:center;
+  }
+  .swap-overlay.show{display:flex}
+  .swap-sheet{
+    background:var(--bg);border-radius:20px 20px 0 0;
+    width:100%;max-width:520px;max-height:82dvh;overflow-y:auto;
+    padding:20px 18px calc(24px + env(safe-area-inset-bottom));
+  }
+  .swap-title{font-family:var(--display);font-size:24px;text-transform:uppercase;letter-spacing:.5px}
+  .swap-sub{color:var(--muted);font-size:13px;font-weight:500;margin:4px 0 14px}
+  .swap-option{
+    width:100%;text-align:left;
+    background:var(--card);border:2px solid var(--line);border-radius:14px;
+    padding:12px;margin-bottom:10px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .swap-option.current{border-color:var(--accent)}
+  .swap-option .thumb{
+    flex:none;width:64px;height:64px;border-radius:10px;overflow:hidden;
+    border:1px solid var(--line);background:#F2F4F1;
+  }
+  .swap-option .thumb img{width:100%;height:100%;object-fit:cover;object-position:12% 50%;display:block}
+  .swap-option .opt-info{flex:1;min-width:0}
+  .swap-option .opt-name{font-weight:700;font-size:15px}
+  .swap-option .opt-muscles{font-size:12px;color:var(--muted);margin-top:2px}
+  .swap-option .opt-current{
+    flex:none;font-size:11px;font-weight:700;color:var(--accent);
+    border:1px solid var(--accent);border-radius:999px;padding:3px 8px;
+  }
+  .swap-cancel{
+    display:block;margin:6px auto 0;color:var(--muted);
+    font-size:14px;font-weight:600;text-decoration:underline;padding:8px;
+  }
+
+  /* ---------- Image d'exercice plein écran ---------- */
+  .img-overlay{
+    position:fixed;inset:0;z-index:70;
+    background:rgba(0,0,0,.75);
+    display:none;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .img-overlay.show{display:flex}
+  .img-box{
+    background:#F2F4F1;border-radius:16px;overflow:hidden;
+    max-width:min(520px,100%);width:100%;max-height:90dvh;overflow-y:auto;
+  }
+  .img-box img{width:100%;display:block}
+  .img-box .img-caption{
+    padding:14px 16px 6px;font-weight:700;font-size:16px;color:#17221C;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .img-box .img-how{
+    padding:0 16px 16px;font-size:14px;line-height:1.5;color:#3C4640;
+  }
+  .img-close{
+    flex:none;font-weight:700;font-size:14px;color:#17221C;
+    border:2px solid #17221C;border-radius:10px;padding:8px 14px;
+  }
+
   /* ---------- Chrono plein écran ---------- */
   .timer-overlay{
-    position:fixed;inset:0;z-index:50;
+    position:fixed;inset:0;z-index:80;
     background:var(--ink);color:var(--bg);
     display:none;flex-direction:column;align-items:center;justify-content:center;
     padding:24px;text-align:center;
@@ -217,28 +326,6 @@
   }
   .t-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 
-  /* ---------- Image d'exercice plein écran ---------- */
-  .img-overlay{
-    position:fixed;inset:0;z-index:60;
-    background:rgba(0,0,0,.75);
-    display:none;align-items:center;justify-content:center;
-    padding:24px;
-  }
-  .img-overlay.show{display:flex}
-  .img-box{
-    background:#F2F4F1;border-radius:16px;overflow:hidden;
-    max-width:min(520px,100%);width:100%;
-  }
-  .img-box img{width:100%;display:block}
-  .img-box .img-caption{
-    padding:14px 16px;font-weight:700;font-size:16px;color:#17221C;
-    display:flex;justify-content:space-between;align-items:center;gap:10px;
-  }
-  .img-close{
-    flex:none;font-weight:700;font-size:14px;color:#17221C;
-    border:2px solid #17221C;border-radius:10px;padding:8px 14px;
-  }
-
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important}
   }
@@ -257,6 +344,11 @@
   </div>
 
   <div class="sessions" id="session-list"></div>
+
+  <button class="progress-link" id="progress-link">
+    <span>Ta progression<span class="sub">Journal des séances et évolution des charges</span></span>
+    <span class="arrow">&#8594;</span>
+  </button>
 
   <div class="tips">
     <h3>Les règles du jeu</h3>
@@ -281,10 +373,37 @@
   <div id="exo-list"></div>
   <div class="finish-banner" id="finish-banner">
     <div class="big">Séance terminée</div>
-    <p>Bien joué. Hydrate-toi, mange, et repose-toi : c'est maintenant que tes muscles se construisent.</p>
+    <p>Bien joué. Ta séance est enregistrée dans ta progression. Hydrate-toi, mange, et repose-toi : c'est maintenant que tes muscles se construisent.</p>
   </div>
   <button class="reset-btn" id="reset-btn">Remettre la séance à zéro</button>
 </main>
+
+<!-- ======== PROGRESSION ======== -->
+<main class="wrap" id="view-progress" hidden>
+  <div class="topbar">
+    <button class="back-btn" id="progress-back">&#8592; Retour</button>
+  </div>
+  <h1 class="session-title">Ta progression</h1>
+  <p class="session-meta" id="p-meta"></p>
+  <div class="prog-section" id="p-weights-section">
+    <h2>Tes charges</h2>
+    <div id="p-weights"></div>
+  </div>
+  <div class="prog-section" id="p-log-section">
+    <h2>Journal des séances</h2>
+    <div id="p-log"></div>
+  </div>
+</main>
+
+<!-- ======== CHOIX D'EXERCICE ======== -->
+<div class="swap-overlay" id="swap-overlay" role="dialog" aria-label="Choisir un exercice">
+  <div class="swap-sheet">
+    <div class="swap-title">Choisis ton exercice</div>
+    <p class="swap-sub" id="swap-sub">Mêmes séries et repos, à toi de varier.</p>
+    <div id="swap-list"></div>
+    <button class="swap-cancel" id="swap-cancel">Annuler</button>
+  </div>
+</div>
 
 <!-- ======== IMAGE D'EXERCICE ======== -->
 <div class="img-overlay" id="img-overlay" role="dialog" aria-label="Image de l'exercice">
@@ -294,6 +413,7 @@
       <span id="img-name"></span>
       <button class="img-close" id="img-close">Fermer</button>
     </div>
+    <p class="img-how" id="img-how"></p>
   </div>
 </div>
 
@@ -312,20 +432,62 @@
 <script>
 "use strict";
 
-/* ---------- Données du programme ---------- */
-/* Les ids (upper, lower, full) servent de clés localStorage : ne pas les renommer sans migration */
+/* ---------- Banque d'exercices ----------
+   Chaque exercice : nom, muscles, explication simple, image img/<slug>.webp.
+   "reps" est optionnel : il remplace les reps par défaut du créneau.
+   Tous les exercices respectent la règle : dos protégé (pas de charge sur la
+   colonne, buste soutenu ou vertical). */
+const EXOS = {
+  "dev-couche-halteres": {name:"Développé couché haltères", muscles:"Pectoraux, épaules, triceps", how:"Allongé sur le banc, un haltère dans chaque main au niveau de la poitrine. Pousse vers le haut, coudes à environ 45°, et redescends en contrôlant."},
+  "dc-machine": {name:"Développé couché machine", muscles:"Pectoraux, épaules, triceps", how:"Règle le siège pour que les poignées soient à hauteur de poitrine. Pousse devant toi sans verrouiller les coudes, reviens lentement."},
+  "pompes": {name:"Pompes", muscles:"Pectoraux, épaules, triceps", how:"Mains un peu plus larges que les épaules, corps bien gainé. Descends la poitrine près du sol et remonte. Trop facile ? Pose un disque sur ton dos."},
+  "tractions": {name:"Tractions", muscles:"Dos, biceps", how:"Suspendu à la barre, mains un peu plus larges que les épaules. Tire jusqu'à passer le menton au-dessus de la barre, redescends en contrôlant."},
+  "tirage-vertical": {name:"Tirage vertical machine", muscles:"Dos, biceps", how:"Assis, cuisses calées sous les supports. Tire la barre vers le haut de la poitrine, coudes vers le bas, sans te pencher en arrière."},
+  "tractions-assistees": {name:"Tractions assistées machine", muscles:"Dos, biceps", how:"Genoux sur le support, mains sur les poignées. La machine t'aide à monter : plus tu mets de poids, plus c'est facile. Menton au niveau des mains, descente contrôlée."},
+  "dev-epaules-halteres": {name:"Développé épaules haltères", muscles:"Épaules, triceps", how:"Assis, dos contre le dossier, un haltère de chaque côté de la tête. Pousse au-dessus de toi sans cambrer, redescends jusqu'aux oreilles."},
+  "dev-epaules-machine": {name:"Développé épaules machine", muscles:"Épaules, triceps", how:"Règle le siège pour que les poignées soient à hauteur d'épaules. Pousse vers le haut sans verrouiller les coudes, reviens lentement."},
+  "elevations-laterales": {name:"Élévations latérales", muscles:"Épaules", how:"Debout, un haltère léger dans chaque main. Monte les bras sur les côtés jusqu'à l'horizontale, sans élan, et redescends doucement.", reps:"15"},
+  "rowing-machine": {name:"Rowing machine (appui poitrine)", muscles:"Dos, biceps", how:"Poitrine bien appuyée contre le support. Tire les poignées vers toi en serrant les omoplates, reviens bras tendus sans lâcher la charge."},
+  "tirage-horizontal": {name:"Tirage horizontal poulie", muscles:"Dos, biceps", how:"Assis, dos droit, pieds calés. Tire la poignée vers le ventre en gardant le buste immobile, reviens en contrôlant."},
+  "rowing-haltere": {name:"Rowing haltère un bras", muscles:"Dos, biceps", how:"Un genou et une main sur le banc, dos bien plat. Tire l'haltère vers ta hanche, coude le long du corps, puis change de côté."},
+  "curl-halteres": {name:"Curl biceps haltères", muscles:"Biceps", how:"Debout, coudes collés au corps. Monte les haltères vers les épaules sans balancer le buste, redescends lentement."},
+  "curl-marteau": {name:"Curl marteau", muscles:"Biceps, avant-bras", how:"Comme le curl classique mais paumes face à face. Coudes collés au corps, pas d'élan."},
+  "triceps-poulie": {name:"Extensions triceps poulie", muscles:"Triceps", how:"Face à la poulie haute, coudes collés au corps. Pousse la corde vers le bas jusqu'à tendre les bras, remonte en contrôlant."},
+  "presse-inclinee": {name:"Presse à cuisses inclinée", muscles:"Cuisses, fessiers", how:"Dos bien plaqué contre le dossier, pieds largeur d'épaules sur le plateau. Descends les genoux vers la poitrine, pousse sans verrouiller les genoux."},
+  "presse-horizontale": {name:"Presse à cuisses assise", muscles:"Cuisses, fessiers", how:"Assis, dos contre le dossier, pieds sur le plateau devant toi. Pousse sans verrouiller les genoux, reviens en contrôlant."},
+  "fentes-marchees": {name:"Fentes marchées haltères", muscles:"Cuisses, fessiers", how:"Un haltère dans chaque main. Grand pas en avant, genou arrière près du sol, puis enchaîne avec l'autre jambe en avançant."},
+  "fentes-bulgares": {name:"Fentes bulgares", muscles:"Cuisses, fessiers", how:"Pied arrière posé sur un banc, haltères en mains. Descends le genou arrière vers le sol, buste droit, puis remonte. Fais toutes les reps d'un côté avant de changer."},
+  "step-up": {name:"Montées sur banc", muscles:"Cuisses, fessiers", how:"Haltères en mains, pose un pied à plat sur le banc et monte en poussant sur cette jambe. Redescends en contrôlant, alterne les jambes."},
+  "leg-extension": {name:"Leg extension", muscles:"Quadriceps", how:"Assis, chevilles derrière le boudin. Tends les jambes à l'horizontale, marque un temps en haut, redescends lentement."},
+  "leg-curl-allonge": {name:"Leg curl allongé", muscles:"Ischio-jambiers", how:"Allongé sur le ventre, chevilles sous le boudin. Ramène les talons vers les fesses, redescends en contrôlant."},
+  "leg-curl-assis": {name:"Leg curl assis", muscles:"Ischio-jambiers", how:"Assis, jambes tendues, chevilles sur le boudin. Plie les genoux pour ramener le boudin sous le siège, reviens lentement."},
+  "planche": {name:"Gainage planche", muscles:"Abdos, gainage", how:"En appui sur les avant-bras et les pointes de pieds, corps bien aligné de la tête aux talons. Ne creuse pas le dos, respire.", reps:"45 s"},
+  "planche-laterale": {name:"Planche latérale", muscles:"Obliques", how:"En appui sur un avant-bras, corps de profil bien aligné, hanches hautes. Tiens la position puis change de côté.", reps:"30 s / côté"},
+  "crunch-poulie": {name:"Crunchs à la poulie", muscles:"Abdos", how:"À genoux face à la poulie haute, corde derrière la tête. Enroule le buste vers le bas avec les abdos, remonte en contrôlant.", reps:"15"},
+  "releves-genoux": {name:"Relevés de genoux suspendu", muscles:"Abdos", how:"Suspendu à la barre, monte les genoux vers la poitrine sans te balancer, redescends en contrôlant.", reps:"12"},
+  "releves-jambes": {name:"Relevés de jambes suspendu", muscles:"Abdos", how:"Suspendu à la barre, jambes tendues. Monte-les jusqu'à l'horizontale sans te balancer, redescends lentement."},
+  "dev-incline": {name:"Développé incliné haltères", muscles:"Haut des pectoraux, épaules", how:"Banc incliné à 30°, un haltère dans chaque main au niveau du haut de la poitrine. Pousse vers le haut, redescends en contrôlant."},
+  "ecarte-poulie": {name:"Écarté à la poulie", muscles:"Pectoraux", how:"Debout entre les deux poulies, un câble dans chaque main. Ramène les mains devant toi en arc de cercle, coudes légèrement fléchis, reviens lentement.", reps:"12-15"}
+};
+
+/* ---------- Programme ----------
+   Chaque séance est une liste de créneaux : le créneau fixe les séries, les
+   reps par défaut et le repos ; "options" liste les exercices de la banque
+   parmi lesquels choisir (le premier est le choix par défaut).
+   Les ids (upper, lower, full) servent de clés de stockage : ne pas les
+   renommer sans migration. */
 const PROGRAM = [
   {
     id:"upper",
     num:"1",
     name:"Push + Pull",
     day:"Lundi",
-    exos:[
-      {name:"Développé couché haltères", sets:4, reps:"8-10", rest:120, note:"Descente contrôlée, coudes à ~45°"},
-      {name:"Tractions (ou tirage vertical)", sets:4, reps:"6-10", rest:120, note:"Si trop dur : tirage vertical machine"},
-      {name:"Développé épaules haltères", sets:3, reps:"10", rest:90, note:""},
-      {name:"Rowing machine", sets:3, reps:"10-12", rest:90, note:"Poitrine bien appuyée contre le support"},
-      {name:"Curl biceps", sets:3, reps:"12", rest:60, note:""}
+    slots:[
+      {label:"Pectoraux", sets:4, reps:"8-10", rest:120, options:["dev-couche-halteres","dc-machine","pompes"]},
+      {label:"Dos - tirage vertical", sets:4, reps:"6-10", rest:120, options:["tractions","tirage-vertical","tractions-assistees"]},
+      {label:"Épaules", sets:3, reps:"10", rest:90, options:["dev-epaules-halteres","dev-epaules-machine","elevations-laterales"]},
+      {label:"Dos - tirage horizontal", sets:3, reps:"10-12", rest:90, options:["rowing-machine","tirage-horizontal","rowing-haltere"]},
+      {label:"Bras", sets:3, reps:"12", rest:60, options:["curl-halteres","curl-marteau","triceps-poulie"]}
     ]
   },
   {
@@ -333,12 +495,12 @@ const PROGRAM = [
     num:"2",
     name:"Legs",
     day:"Mercredi",
-    exos:[
-      {name:"Presse à cuisses", sets:4, reps:"10-12", rest:120, note:"Dos bien plaqué contre le dossier"},
-      {name:"Fentes marchées haltères", sets:3, reps:"10 / jambe", rest:90, note:""},
-      {name:"Leg extension (quadriceps)", sets:3, reps:"12", rest:60, note:"Monte contrôlé, redescends lentement"},
-      {name:"Leg curl (ischios)", sets:3, reps:"12", rest:60, note:""},
-      {name:"Gainage planche", sets:3, reps:"45 s", rest:45, note:"Corps bien aligné, ne creuse pas le dos"}
+    slots:[
+      {label:"Cuisses - lourd", sets:4, reps:"10-12", rest:120, options:["presse-inclinee","presse-horizontale"]},
+      {label:"Cuisses - une jambe", sets:3, reps:"10 / jambe", rest:90, options:["fentes-marchees","fentes-bulgares","step-up"]},
+      {label:"Quadriceps", sets:3, reps:"12", rest:60, options:["leg-extension"]},
+      {label:"Ischios", sets:3, reps:"12", rest:60, options:["leg-curl-allonge","leg-curl-assis"]},
+      {label:"Abdos", sets:3, reps:"45 s", rest:45, options:["planche","crunch-poulie","releves-genoux"]}
     ]
   },
   {
@@ -346,19 +508,31 @@ const PROGRAM = [
     num:"3",
     name:"Full body",
     day:"Vendredi ou samedi",
-    exos:[
-      {name:"Tirage vertical (dos)", sets:3, reps:"10-12", rest:90, note:"Tire la barre vers le haut de la poitrine"},
-      {name:"Développé incliné", sets:3, reps:"10", rest:90, note:""},
-      {name:"Tirage horizontal (dos)", sets:3, reps:"12", rest:90, note:"Dos droit, tire vers le ventre"},
-      {name:"Relevés de jambes suspendu (abdos)", sets:3, reps:"12", rest:60, note:""},
-      {name:"Planche latérale (obliques)", sets:2, reps:"30 s / côté", rest:45, note:"Hanches hautes, corps aligné"}
+    slots:[
+      {label:"Dos - tirage vertical", sets:3, reps:"10-12", rest:90, options:["tirage-vertical","tractions","tractions-assistees"]},
+      {label:"Pectoraux", sets:3, reps:"10", rest:90, options:["dev-incline","ecarte-poulie","dc-machine"]},
+      {label:"Dos - tirage horizontal", sets:3, reps:"12", rest:90, options:["tirage-horizontal","rowing-machine","rowing-haltere"]},
+      {label:"Abdos", sets:3, reps:"12", rest:60, options:["releves-jambes","releves-genoux","crunch-poulie"]},
+      {label:"Obliques", sets:2, reps:"30 s / côté", rest:45, options:["planche-laterale","planche"]}
     ]
   }
 ];
 
+function chosenExo(sid, slotIdx){
+  const s = PROGRAM.find(x => x.id === sid);
+  const slot = s.slots[slotIdx];
+  const st = sessionState(sid);
+  const slug = (st.chosen && st.chosen[slotIdx] && EXOS[st.chosen[slotIdx]] && slot.options.indexOf(st.chosen[slotIdx]) !== -1)
+    ? st.chosen[slotIdx] : slot.options[0];
+  return slug;
+}
+function exoReps(slot, slug){
+  return EXOS[slug].reps || slot.reps;
+}
+
 /* ---------- Stockage local (par téléphone) ---------- */
 const KEY = "armand-programme-v1";
-let state = { sessions:{}, completed:0 };
+let state = { version:2, sessions:{}, weights:{}, history:[], completed:0 };
 try {
   const raw = localStorage.getItem(KEY);
   if (raw) {
@@ -366,28 +540,53 @@ try {
     if (parsed && typeof parsed === "object") {
       state.sessions = parsed.sessions || {};
       state.completed = parsed.completed || 0;
+      state.weights = parsed.weights || {};
+      state.history = Array.isArray(parsed.history) ? parsed.history : [];
+      state.version = parsed.version || 1;
     }
   }
 } catch(e){ /* stockage indisponible : l'app marche quand même, sans mémoire */ }
+
+/* Migration v1 -> v2 : les charges étaient rangées par index d'exercice dans
+   chaque séance ; elles passent en global, par exercice de la banque. */
+if (state.version < 2) {
+  const oldMap = {
+    upper: ["dev-couche-halteres","tractions","dev-epaules-halteres","rowing-machine","curl-halteres"],
+    lower: ["presse-inclinee","fentes-marchees","leg-extension","leg-curl-allonge","planche"],
+    full:  ["tirage-vertical","dev-incline","tirage-horizontal","releves-jambes","planche-laterale"]
+  };
+  Object.keys(state.sessions).forEach(sid => {
+    const sess = state.sessions[sid];
+    const ws = sess.weights || {};
+    (oldMap[sid] || []).forEach((slug, i) => {
+      if (ws[i] != null && ws[i] !== "") state.weights[slug] = ws[i];
+    });
+    delete sess.weights;
+  });
+  state.version = 2;
+  save();
+}
 
 function save(){
   try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
 }
 function sessionState(id){
-  if (!state.sessions[id]) state.sessions[id] = { checks:{}, weights:{}, counted:false };
+  if (!state.sessions[id]) state.sessions[id] = { checks:{}, counted:false, chosen:{} };
+  if (!state.sessions[id].chosen) state.sessions[id].chosen = {};
   return state.sessions[id];
 }
 
 /* ---------- Accueil ---------- */
 const homeEl = document.getElementById("view-home");
 const sessionEl = document.getElementById("view-session");
+const progressViewEl = document.getElementById("view-progress");
 const listEl = document.getElementById("session-list");
 
 function sessionPct(s){
   const st = sessionState(s.id);
   let done = 0, total = 0;
-  s.exos.forEach((ex, i) => {
-    total += ex.sets;
+  s.slots.forEach((slot, i) => {
+    total += slot.sets;
     const arr = st.checks[i] || [];
     done += arr.filter(Boolean).length;
   });
@@ -404,7 +603,7 @@ function renderHome(){
       '<div class="session-num">' + s.num + '</div>' +
       '<div class="session-info">' +
         '<h2>' + s.name + '</h2>' +
-        '<p>' + s.day + ' &middot; ' + s.exos.length + ' exercices</p>' +
+        '<p>' + s.day + ' &middot; ' + s.slots.length + ' exercices</p>' +
         '<div class="session-progress"><span style="width:' + pct + '%"></span></div>' +
       '</div>' +
       '<div class="session-check">&#10003;</div>';
@@ -416,6 +615,13 @@ function renderHome(){
     sb.hidden = false;
     document.getElementById("streak-count").textContent = state.completed;
   }
+}
+
+function showView(view){
+  homeEl.hidden = view !== homeEl;
+  sessionEl.hidden = view !== sessionEl;
+  progressViewEl.hidden = view !== progressViewEl;
+  window.scrollTo(0, 0);
 }
 
 /* ---------- Séance ---------- */
@@ -430,42 +636,42 @@ function openSession(id){
   document.getElementById("s-title").textContent = s.name;
   document.getElementById("s-meta").textContent = s.day + " · repos auto après chaque série";
   renderExos(s);
-  homeEl.hidden = true;
-  sessionEl.hidden = false;
-  window.scrollTo(0, 0);
+  showView(sessionEl);
 }
 
 function renderExos(s){
   const st = sessionState(s.id);
   exoListEl.innerHTML = "";
-  s.exos.forEach((ex, i) => {
+  s.slots.forEach((slot, i) => {
+    const slug = chosenExo(s.id, i);
+    const ex = EXOS[slug];
     const checks = st.checks[i] || [];
-    const allDone = checks.filter(Boolean).length >= ex.sets;
+    const allDone = checks.filter(Boolean).length >= slot.sets;
     const card = document.createElement("div");
     card.className = "exo" + (allDone ? " done-exo" : "");
 
     let setsHtml = "";
-    for (let k = 0; k < ex.sets; k++){
+    for (let k = 0; k < slot.sets; k++){
       const ck = checks[k] ? " checked" : "";
       setsHtml += '<button class="set-btn' + ck + '" data-exo="' + i + '" data-set="' + k + '" aria-pressed="' + (checks[k] ? "true" : "false") + '" aria-label="Série ' + (k+1) + '">' + (checks[k] ? "✓" : "S" + (k+1)) + '</button>';
     }
 
-    const w = st.weights[i] != null ? st.weights[i] : "";
-    const imgSrc = "img/" + s.id + "-" + i + ".webp";
+    const w = state.weights[slug] != null ? state.weights[slug] : "";
     card.innerHTML =
+      '<div class="exo-slot">' + slot.label + '</div>' +
       '<div class="exo-head">' +
         '<button class="exo-thumb" data-img="' + i + '" aria-label="Voir l’exercice en image">' +
-          '<img src="' + imgSrc + '" alt="" loading="lazy">' +
+          '<img src="img/' + slug + '.webp" alt="" loading="lazy">' +
         '</button>' +
         '<div style="flex:1">' +
           '<div class="exo-name">' + ex.name + '</div>' +
-          '<div class="exo-detail">' + ex.sets + ' séries × ' + ex.reps + ' reps</div>' +
+          '<div class="exo-detail">' + slot.sets + ' séries × ' + exoReps(slot, slug) + (exoReps(slot, slug).indexOf("s") === -1 ? ' reps' : '') + '</div>' +
         '</div>' +
-        '<span class="exo-rest">repos ' + formatRest(ex.rest) + '</span>' +
+        '<span class="exo-rest">repos ' + formatRest(slot.rest) + '</span>' +
       '</div>' +
-      (ex.note ? '<div class="exo-note">' + ex.note + '</div>' : '') +
+      (slot.options.length > 1 ? '<button class="swap-btn" data-swap="' + i + '">Changer d’exercice</button>' : '') +
       '<div class="sets-row">' + setsHtml +
-        '<div class="weight-box"><input type="number" inputmode="decimal" min="0" step="0.5" value="' + w + '" data-weight="' + i + '" aria-label="Charge en kilos"><label>kg</label></div>' +
+        '<div class="weight-box"><input type="number" inputmode="decimal" min="0" step="0.5" value="' + w + '" data-weight="' + slug + '" aria-label="Charge en kilos"><label>kg</label></div>' +
       '</div>';
     exoListEl.appendChild(card);
   });
@@ -476,13 +682,19 @@ function renderExos(s){
   exoListEl.querySelectorAll(".exo-thumb").forEach(b => {
     b.addEventListener("click", e => {
       const i = parseInt(e.currentTarget.getAttribute("data-img"), 10);
-      openImage(s, i);
+      openImage(chosenExo(currentId, i));
+    });
+  });
+  exoListEl.querySelectorAll(".swap-btn").forEach(b => {
+    b.addEventListener("click", e => {
+      const i = parseInt(e.currentTarget.getAttribute("data-swap"), 10);
+      openSwap(s, i);
     });
   });
   exoListEl.querySelectorAll("input[data-weight]").forEach(inp => {
     inp.addEventListener("change", e => {
-      const i = e.target.getAttribute("data-weight");
-      sessionState(currentId).weights[i] = e.target.value;
+      const slug = e.target.getAttribute("data-weight");
+      state.weights[slug] = e.target.value;
       save();
     });
   });
@@ -491,31 +703,30 @@ function renderExos(s){
 
 function onSetTap(e){
   const btn = e.currentTarget;
-  const exoIdx = parseInt(btn.getAttribute("data-exo"), 10);
+  const slotIdx = parseInt(btn.getAttribute("data-exo"), 10);
   const setIdx = parseInt(btn.getAttribute("data-set"), 10);
   const s = PROGRAM.find(x => x.id === currentId);
   const st = sessionState(currentId);
-  if (!st.checks[exoIdx]) st.checks[exoIdx] = [];
-  const wasChecked = !!st.checks[exoIdx][setIdx];
-  st.checks[exoIdx][setIdx] = !wasChecked;
+  if (!st.checks[slotIdx]) st.checks[slotIdx] = [];
+  const wasChecked = !!st.checks[slotIdx][setIdx];
+  st.checks[slotIdx][setIdx] = !wasChecked;
   save();
   renderExos(s);
   if (!wasChecked) {
-    const ex = s.exos[exoIdx];
-    const isLastSet = st.checks[exoIdx].filter(Boolean).length >= ex.sets;
+    const slot = s.slots[slotIdx];
     const pct = sessionPct(s);
     if (pct >= 100) {
       markCompleted(s);
     } else if (!isLastSetOfSession(s, st)) {
-      startTimer(ex.rest, ex.name);
+      startTimer(slot.rest, EXOS[chosenExo(currentId, slotIdx)].name);
     }
   }
 }
 
 function isLastSetOfSession(s, st){
   let done = 0, total = 0;
-  s.exos.forEach((ex, i) => {
-    total += ex.sets;
+  s.slots.forEach((slot, i) => {
+    total += slot.sets;
     done += (st.checks[i] || []).filter(Boolean).length;
   });
   return done >= total;
@@ -526,6 +737,15 @@ function markCompleted(s){
   if (!st.counted) {
     st.counted = true;
     state.completed = (state.completed || 0) + 1;
+    /* Enregistre la séance dans le journal : date, exercices choisis, charges */
+    const exos = s.slots.map((slot, i) => {
+      const slug = chosenExo(s.id, i);
+      const entry = { k: slug };
+      const w = state.weights[slug];
+      if (w != null && w !== "") entry.w = w;
+      return entry;
+    });
+    state.history.push({ d: new Date().toISOString().slice(0, 10), s: s.id, exos: exos });
     save();
   }
   bannerEl.classList.add("show");
@@ -540,10 +760,8 @@ function updateProgress(){
 }
 
 document.getElementById("back-btn").addEventListener("click", () => {
-  sessionEl.hidden = true;
-  homeEl.hidden = false;
   renderHome();
-  window.scrollTo(0, 0);
+  showView(homeEl);
 });
 
 document.getElementById("reset-btn").addEventListener("click", () => {
@@ -557,16 +775,58 @@ document.getElementById("reset-btn").addEventListener("click", () => {
   bannerEl.classList.remove("show");
 });
 
+/* ---------- Choix d'exercice ---------- */
+const swapOverlayEl = document.getElementById("swap-overlay");
+const swapListEl = document.getElementById("swap-list");
+
+function openSwap(s, slotIdx){
+  const slot = s.slots[slotIdx];
+  const current = chosenExo(s.id, slotIdx);
+  document.getElementById("swap-sub").textContent =
+    slot.label + " · " + slot.sets + " séries · repos " + formatRest(slot.rest);
+  swapListEl.innerHTML = "";
+  slot.options.forEach(slug => {
+    const ex = EXOS[slug];
+    const btn = document.createElement("button");
+    btn.className = "swap-option" + (slug === current ? " current" : "");
+    btn.innerHTML =
+      '<span class="thumb"><img src="img/' + slug + '.webp" alt="" loading="lazy"></span>' +
+      '<span class="opt-info">' +
+        '<span class="opt-name">' + ex.name + '</span>' +
+        '<span class="opt-muscles" style="display:block">' + ex.muscles + ' · ' + exoReps(slot, slug) + '</span>' +
+      '</span>' +
+      (slug === current ? '<span class="opt-current">Actuel</span>' : '');
+    btn.addEventListener("click", () => {
+      const st = sessionState(s.id);
+      st.chosen[slotIdx] = slug;
+      save();
+      closeSwap();
+      renderExos(s);
+    });
+    swapListEl.appendChild(btn);
+  });
+  swapOverlayEl.classList.add("show");
+}
+function closeSwap(){
+  swapOverlayEl.classList.remove("show");
+}
+document.getElementById("swap-cancel").addEventListener("click", closeSwap);
+swapOverlayEl.addEventListener("click", e => {
+  if (e.target === swapOverlayEl) closeSwap();
+});
+
 /* ---------- Image d'exercice ---------- */
 const imgOverlayEl = document.getElementById("img-overlay");
 const imgFullEl = document.getElementById("img-full");
 const imgNameEl = document.getElementById("img-name");
+const imgHowEl = document.getElementById("img-how");
 
-function openImage(s, i){
-  const ex = s.exos[i];
-  imgFullEl.src = "img/" + s.id + "-" + i + ".webp";
+function openImage(slug){
+  const ex = EXOS[slug];
+  imgFullEl.src = "img/" + slug + ".webp";
   imgFullEl.alt = "Démonstration : " + ex.name;
   imgNameEl.textContent = ex.name;
+  imgHowEl.textContent = ex.how;
   imgOverlayEl.classList.add("show");
 }
 function closeImage(){
@@ -577,7 +837,105 @@ imgOverlayEl.addEventListener("click", e => {
   if (e.target === imgOverlayEl) closeImage();
 });
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeImage();
+  if (e.key === "Escape") { closeImage(); closeSwap(); }
+});
+
+/* ---------- Progression ---------- */
+const MONTHS = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+function formatDate(iso){
+  const p = iso.split("-");
+  return parseInt(p[2], 10) + " " + (MONTHS[parseInt(p[1], 10) - 1] || p[1]) + " " + p[0];
+}
+
+function sparkline(values){
+  const w = 96, h = 30, pad = 3;
+  const min = Math.min.apply(null, values);
+  const max = Math.max.apply(null, values);
+  const range = max - min || 1;
+  const pts = values.map((v, i) => {
+    const x = pad + i * (w - 2 * pad) / Math.max(values.length - 1, 1);
+    const y = h - pad - (v - min) / range * (h - 2 * pad);
+    return x.toFixed(1) + "," + y.toFixed(1);
+  }).join(" ");
+  return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' +
+    '<polyline points="' + pts + '" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+
+function renderProgress(){
+  document.getElementById("p-meta").textContent =
+    state.completed + " séance" + (state.completed > 1 ? "s" : "") + " terminée" + (state.completed > 1 ? "s" : "") + " au total";
+
+  /* Charges : historique par exercice, dans l'ordre d'utilisation la plus récente */
+  const series = {};
+  state.history.forEach(entry => {
+    entry.exos.forEach(e => {
+      const val = parseFloat(String(e.w).replace(",", "."));
+      if (!isNaN(val)) {
+        if (!series[e.k]) series[e.k] = [];
+        series[e.k].push(val);
+      }
+    });
+  });
+  const weightsEl = document.getElementById("p-weights");
+  weightsEl.innerHTML = "";
+  const slugs = Object.keys(series);
+  if (slugs.length === 0) {
+    weightsEl.innerHTML = '<div class="prog-empty">Termine ta première séance avec des charges notées en kg : ta progression s’affichera ici.</div>';
+  } else {
+    slugs.reverse().forEach(slug => {
+      const vals = series[slug];
+      const ex = EXOS[slug];
+      if (!ex) return;
+      const first = vals[0], last = vals[vals.length - 1];
+      const diff = Math.round((last - first) * 10) / 10;
+      const deltaTxt = vals.length < 2
+        ? last + " kg · continue de noter tes charges"
+        : first + " kg → <b>" + last + " kg</b>" + (diff > 0 ? " (+" + diff + " kg)" : "");
+      const card = document.createElement("div");
+      card.className = "prog-card";
+      card.innerHTML =
+        '<div class="info">' +
+          '<div class="name">' + ex.name + '</div>' +
+          '<div class="delta">' + deltaTxt + '</div>' +
+        '</div>' +
+        (vals.length >= 2 ? sparkline(vals) : '');
+      weightsEl.appendChild(card);
+    });
+  }
+
+  /* Journal : la plus récente en premier */
+  const logEl = document.getElementById("p-log");
+  logEl.innerHTML = "";
+  if (state.history.length === 0) {
+    logEl.innerHTML = '<div class="prog-empty">Aucune séance enregistrée pour l’instant. Chaque séance terminée apparaîtra ici avec sa date et tes charges.</div>';
+  } else {
+    state.history.slice().reverse().forEach(entry => {
+      const s = PROGRAM.find(x => x.id === entry.s);
+      const detail = entry.exos.map(e => {
+        const ex = EXOS[e.k];
+        if (!ex) return null;
+        return ex.name + (e.w != null && e.w !== "" ? " " + e.w + " kg" : "");
+      }).filter(Boolean).join(" · ");
+      const div = document.createElement("div");
+      div.className = "log-entry";
+      div.innerHTML =
+        '<div class="log-head">' +
+          '<span class="log-date">' + formatDate(entry.d) + '</span>' +
+          '<span class="log-session">' + (s ? s.name : entry.s) + '</span>' +
+        '</div>' +
+        '<div class="log-detail">' + detail + '</div>';
+      logEl.appendChild(div);
+    });
+  }
+}
+
+document.getElementById("progress-link").addEventListener("click", () => {
+  renderProgress();
+  showView(progressViewEl);
+});
+document.getElementById("progress-back").addEventListener("click", () => {
+  renderHome();
+  showView(homeEl);
 });
 
 /* ---------- Chrono ---------- */

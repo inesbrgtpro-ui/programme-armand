@@ -1,7 +1,7 @@
 "use strict";
 
 /* Incrémenter la version à chaque mise à jour de l'app pour forcer le rafraîchissement du cache */
-const CACHE = "armand-v2.2.0";
+const CACHE = "armand-v3.0.0";
 
 const PRECACHE = [
   "./",
@@ -11,12 +11,17 @@ const PRECACHE = [
   "icons/icon-512.png",
   "icons/icon-512-maskable.png",
   "icons/apple-touch-icon.png",
-  "img/upper-0.webp", "img/upper-1.webp", "img/upper-2.webp",
-  "img/upper-3.webp", "img/upper-4.webp",
-  "img/lower-0.webp", "img/lower-1.webp", "img/lower-2.webp",
-  "img/lower-3.webp", "img/lower-4.webp",
-  "img/full-0.webp", "img/full-1.webp", "img/full-2.webp",
-  "img/full-3.webp", "img/full-4.webp"
+  "img/dev-couche-halteres.webp", "img/dc-machine.webp", "img/pompes.webp",
+  "img/tractions.webp", "img/tirage-vertical.webp", "img/tractions-assistees.webp",
+  "img/dev-epaules-halteres.webp", "img/dev-epaules-machine.webp", "img/elevations-laterales.webp",
+  "img/rowing-machine.webp", "img/tirage-horizontal.webp", "img/rowing-haltere.webp",
+  "img/curl-halteres.webp", "img/curl-marteau.webp", "img/triceps-poulie.webp",
+  "img/presse-inclinee.webp", "img/presse-horizontale.webp",
+  "img/fentes-marchees.webp", "img/fentes-bulgares.webp", "img/step-up.webp",
+  "img/leg-extension.webp", "img/leg-curl-allonge.webp", "img/leg-curl-assis.webp",
+  "img/planche.webp", "img/planche-laterale.webp",
+  "img/crunch-poulie.webp", "img/releves-genoux.webp", "img/releves-jambes.webp",
+  "img/dev-incline.webp", "img/ecarte-poulie.webp"
 ];
 
 self.addEventListener("install", e => {

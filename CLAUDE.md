@@ -91,12 +91,9 @@ programme doit respecter ce principe.
   chaque mise à jour**), `icons/` (haltère orange sur fond sombre).
 - Séances renommées "Push + Pull / Legs / Full body" (ids de stockage
   inchangés : `upper`, `lower`, `full`).
-- Illustrations d'exercices dans `img/`, nommées `<idSéance>-<indexExo>.webp`
-  (ex. `lower-2.webp` = 3e exercice de la séance Legs) : si on réordonne ou
-  remplace des exercices dans `PROGRAM`, renommer les fichiers en conséquence
-  et mettre à jour la liste `PRECACHE` de `sw.js`. Vignette sur chaque carte,
-  tap = image plein écran. Images générées en IA (style flat, silhouette
-  sombre + orange).
+- Illustrations d'exercices dans `img/`, nommées par slug d'exercice
+  (`img/<slug>.webp`, ex. `img/leg-extension.webp`). Images générées en IA
+  (style flat, silhouette sombre + orange, deux phases du mouvement).
 - Mobile-first (utilisé sur téléphone à la salle), thème clair/sombre auto
   (`prefers-color-scheme`), reduced-motion respecté, safe areas iOS gérées.
 - L'ancien artifact Claude (https://claude.ai/artifact/QKaidCkE3d5w19PyzkhEuR)
@@ -106,32 +103,51 @@ programme doit respecter ce principe.
 
 ### Fonctionnalités implémentées
 - Écran d'accueil : 3 cartes de séance avec % de progression + compteur de
-  séances terminées
-- Écran séance : cartes exercice (nom, séries×reps, note technique, badge repos),
-  boutons de séries cochables, input charge en kg
+  séances terminées + accès "Ta progression"
+- **Banque d'exercices** : chaque séance est une liste de créneaux
+  (label, séries, reps, repos) avec 1 à 3 exercices au choix ; bouton
+  "Changer d'exercice" → sélecteur en bas d'écran (vignette, muscles, reps).
+  Le premier exercice de `options` est le choix par défaut (= programme
+  validé). Tout ajout à la banque doit respecter : dos protégé.
+- Écran séance : cartes exercice (créneau, vignette, nom, séries×reps,
+  badge repos), boutons de séries cochables, input charge en kg (la charge
+  est propre à l'exercice, partagée entre séances)
+- Vignette → image plein écran avec explication du mouvement (champ `how`)
 - Cocher une série → chrono de repos plein écran automatique (durée propre à
-  chaque exercice), boutons "+15 s" et "C'est reparti", bip (WebAudio) +
+  chaque créneau), boutons "+15 s" et "C'est reparti", bip (WebAudio) +
   vibration (Vibration API) à la fin
+- **Journal de progression** : chaque séance terminée est enregistrée
+  (date, exercices choisis, charges) ; écran "Ta progression" avec courbes
+  d'évolution des charges (sparklines SVG) et journal antéchronologique
 - Bannière "Séance terminée" quand tout est coché
-- Reset de séance (conserve les charges)
+- Reset de séance (conserve les charges et le journal)
 - Persistance `localStorage` (clé `armand-programme-v1`), tout est en try/catch :
   l'app fonctionne même sans stockage
 
-### Structure des données (localStorage)
+### Structure des données (localStorage, schéma v2)
 ```json
 {
+  "version": 2,
   "sessions": {
-    "upper": { "checks": { "0": [true, true] }, "weights": { "0": "22.5" }, "counted": false },
-    "lower": { ... },
-    "full": { ... }
+    "upper": { "checks": { "0": [true, true] }, "counted": false, "chosen": { "1": "tirage-vertical" } },
+    "lower": {}, "full": {}
   },
+  "weights": { "dev-couche-halteres": "22.5" },
+  "history": [
+    { "d": "2026-09-18", "s": "upper", "exos": [ { "k": "dev-couche-halteres", "w": "22.5" } ] }
+  ],
   "completed": 4
 }
 ```
-Le programme lui-même est dans la constante `PROGRAM` en tête du script
-(id, num, name, day, exos[] avec name/sets/reps/rest/note).
-Les ids de séance (`upper`, `lower`, `full`) sont utilisés comme clés de
-stockage : ne pas les renommer sans migration des données.
+- La banque est dans la constante `EXOS` (slug → name/muscles/how/reps?) et
+  le programme dans `PROGRAM` (id, num, name, day, slots[] avec
+  label/sets/reps/rest/options[]). `reps` d'un exercice remplace celui du
+  créneau (ex. planche "45 s").
+- Chaque exercice a son image `img/<slug>.webp` : en ajouter une lors de tout
+  ajout à la banque, et l'ajouter à `PRECACHE` dans `sw.js`.
+- Les ids de séance (`upper`, `lower`, `full`) et les slugs d'exercices
+  servent de clés de stockage : ne pas les renommer sans migration
+  (une migration v1→v2 existe déjà dans le script en exemple).
 
 ## Pistes d'évolution (backlog)
 
@@ -139,12 +155,12 @@ stockage : ne pas les renommer sans migration des données.
       (ids de stockage conservés)
 - [x] PWA : manifest + service worker pour installation écran d'accueil et
       usage hors ligne
-- [ ] Historique par date : log de chaque séance terminée (date, charges) pour
+- [x] Historique par date : log de chaque séance terminée (date, charges) pour
       visualiser la progression dans le temps
-- [ ] Graphique d'évolution des charges par exercice
+- [x] Graphique d'évolution des charges par exercice (sparklines)
+- [x] Substitutions d'exercices (banque d'exercices par créneau)
 - [ ] Export/import des données (changement de téléphone)
 - [ ] Mode "semaine" : planning lundi/mercredi/vendredi avec rappel du jour
-- [ ] Substitutions d'exercices (machine occupée → alternative proposée)
 - [ ] Volet nutrition/récupération simple (plus tard : le projet global couvre
       aussi révisions, finance et santé)
 
