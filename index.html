@@ -205,6 +205,7 @@
     color:var(--muted);font-size:14px;font-weight:600;
     text-decoration:underline;padding:8px;
   }
+  .reset-btn.armed{color:var(--accent)}
 
   /* ---------- Progression ---------- */
   .prog-section{margin-top:26px}
@@ -651,6 +652,7 @@ function openSession(id){
   const s = PROGRAM.find(x => x.id === id);
   document.getElementById("s-title").textContent = s.name;
   document.getElementById("s-meta").textContent = s.day + " · repos auto après chaque série";
+  disarmReset();
   renderExos(s);
   showView(sessionEl);
 }
@@ -785,8 +787,23 @@ document.getElementById("back-btn").addEventListener("click", () => {
   showView(homeEl);
 });
 
-document.getElementById("reset-btn").addEventListener("click", () => {
-  if (!confirm("Remettre cette séance à zéro ? (les charges en kg sont conservées)")) return;
+/* Confirmation en deux appuis : confirm() est bloqué dans certains contextes
+   (app installée iOS, aperçus), donc pas de popup native */
+const resetBtn = document.getElementById("reset-btn");
+let resetTimeout = null;
+function disarmReset(){
+  if (resetTimeout) { clearTimeout(resetTimeout); resetTimeout = null; }
+  resetBtn.classList.remove("armed");
+  resetBtn.textContent = "Remettre la séance à zéro";
+}
+resetBtn.addEventListener("click", () => {
+  if (!resetBtn.classList.contains("armed")) {
+    resetBtn.classList.add("armed");
+    resetBtn.textContent = "Sûr ? Appuie encore (les kg sont gardés)";
+    resetTimeout = setTimeout(disarmReset, 4000);
+    return;
+  }
+  disarmReset();
   const st = sessionState(currentId);
   st.checks = {};
   st.counted = false;
