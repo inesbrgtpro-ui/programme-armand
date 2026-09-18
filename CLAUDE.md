@@ -77,8 +77,11 @@ programme doit respecter ce principe.
 
 ## État actuel
 
-- **v2 : PWA installable** destinée à être hébergée sur GitHub Pages et
-  installée sur l'iPhone d'Armand (Safari → Partager → "Sur l'écran d'accueil").
+- **v2 : PWA installable**, en ligne sur GitHub Pages :
+  https://inesbrgtpro-ui.github.io/programme-armand/
+  (dépôt : https://github.com/inesbrgtpro-ui/programme-armand, compte inesbrgtpro-ui).
+  Installée sur l'iPhone d'Armand via Safari → Partager → "Sur l'écran d'accueil".
+  Chaque `git push` sur `main` met le site à jour automatiquement.
 - Fichiers : `index.html` (app complète, HTML/CSS/JS vanilla, aucune dépendance
   hors Google Fonts), `manifest.webmanifest`, `sw.js` (service worker,
   cache-first pour usage hors ligne — **incrémenter la constante `CACHE` à
