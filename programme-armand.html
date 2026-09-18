@@ -1,0 +1,582 @@
+<title>Programme d'Armand</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#F2F4F1;
+    --card:#FFFFFF;
+    --ink:#17221C;
+    --muted:#5C6862;
+    --line:#DDE2DD;
+    --accent:#FF4D24;
+    --accent-ink:#FFFFFF;
+    --done:#1E7A4A;
+    --done-soft:#E2F0E8;
+    --shadow:0 1px 0 rgba(23,34,28,.06);
+    --display:'Anton', Impact, 'Arial Narrow', sans-serif;
+    --body:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#111613;
+      --card:#1A211C;
+      --ink:#EEF3EE;
+      --muted:#9AA79F;
+      --line:#2A332D;
+      --accent:#FF5A2E;
+      --accent-ink:#161616;
+      --done:#4CC98A;
+      --done-soft:#1E2E25;
+      --shadow:none;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#111613;
+    --card:#1A211C;
+    --ink:#EEF3EE;
+    --muted:#9AA79F;
+    --line:#2A332D;
+    --accent:#FF5A2E;
+    --accent-ink:#161616;
+    --done:#4CC98A;
+    --done-soft:#1E2E25;
+    --shadow:none;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.45;
+    min-height:100dvh;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  button:focus-visible, input:focus-visible, [tabindex]:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+  .wrap{max-width:520px;margin:0 auto;padding:20px 18px 120px}
+
+  /* ---------- Accueil ---------- */
+  .hero h1{
+    font-family:var(--display);
+    font-size:clamp(44px,13vw,64px);
+    line-height:.95;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+  }
+  .hero .sub{color:var(--muted);margin-top:10px;font-weight:500}
+  .streak{
+    margin-top:16px;
+    display:inline-flex;align-items:baseline;gap:8px;
+    background:var(--card);border:1px solid var(--line);
+    padding:8px 14px;border-radius:999px;box-shadow:var(--shadow);
+    font-weight:600;font-size:14px;
+  }
+  .streak b{font-family:var(--display);font-size:22px;color:var(--accent);font-weight:400}
+
+  .sessions{margin-top:28px;display:flex;flex-direction:column;gap:14px}
+  .session-card{
+    width:100%;text-align:left;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:18px;box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:16px;
+    transition:transform .1s ease;
+  }
+  .session-card:active{transform:scale(.985)}
+  .session-num{
+    font-family:var(--display);font-size:40px;line-height:1;
+    color:var(--accent);min-width:34px;
+  }
+  .session-info{flex:1}
+  .session-info h2{font-size:18px;font-weight:700}
+  .session-info p{color:var(--muted);font-size:14px;margin-top:2px}
+  .session-progress{
+    height:6px;background:var(--line);border-radius:3px;margin-top:10px;overflow:hidden;
+  }
+  .session-progress span{display:block;height:100%;background:var(--done);border-radius:3px;width:0%}
+  .session-check{font-size:22px;color:var(--done);display:none}
+  .session-card.complete .session-check{display:block}
+  .session-card.complete .session-num{color:var(--done)}
+
+  .tips{margin-top:30px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+  .tips h3{font-size:15px;font-weight:700;margin-bottom:10px}
+  .tips ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .tips li{font-size:14px;color:var(--muted);padding-left:18px;position:relative}
+  .tips li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;background:var(--accent);border-radius:2px}
+
+  /* ---------- Séance ---------- */
+  .topbar{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .back-btn{
+    font-weight:600;font-size:15px;color:var(--muted);
+    padding:8px 12px 8px 0;
+  }
+  .session-title{
+    font-family:var(--display);font-size:clamp(34px,10vw,46px);
+    text-transform:uppercase;line-height:1;letter-spacing:.5px;
+  }
+  .session-meta{color:var(--muted);font-weight:500;margin-top:6px;font-size:14px}
+  .global-progress{height:8px;background:var(--line);border-radius:4px;margin:16px 0 22px;overflow:hidden}
+  .global-progress span{display:block;height:100%;background:var(--accent);border-radius:4px;width:0%;transition:width .25s ease}
+
+  .exo{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:16px;margin-bottom:12px;box-shadow:var(--shadow);
+  }
+  .exo.done-exo{background:var(--done-soft);border-color:transparent}
+  .exo-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .exo-name{font-weight:700;font-size:16px}
+  .exo-detail{color:var(--muted);font-size:13px;margin-top:2px}
+  .exo-rest{
+    font-size:12px;font-weight:600;color:var(--muted);
+    background:var(--bg);border:1px solid var(--line);
+    padding:3px 8px;border-radius:999px;white-space:nowrap;
+  }
+  .exo-note{font-size:13px;color:var(--muted);margin-top:8px;font-style:italic}
+  .sets-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;align-items:center}
+  .set-btn{
+    width:52px;height:52px;border-radius:14px;
+    border:2px solid var(--line);background:var(--bg);
+    font-weight:700;font-size:15px;color:var(--muted);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .08s ease;
+  }
+  .set-btn:active{transform:scale(.92)}
+  .set-btn.checked{
+    background:var(--done);border-color:var(--done);color:#fff;
+  }
+  .weight-box{margin-left:auto;display:flex;align-items:center;gap:6px}
+  .weight-box input{
+    width:64px;padding:10px 8px;border-radius:10px;
+    border:1px solid var(--line);background:var(--bg);color:var(--ink);
+    font-family:inherit;font-size:15px;font-weight:600;text-align:center;
+  }
+  .weight-box label{font-size:12px;color:var(--muted);font-weight:600}
+
+  .finish-banner{
+    display:none;
+    background:var(--done);color:#fff;border-radius:16px;
+    padding:20px;text-align:center;margin-top:18px;
+  }
+  .finish-banner.show{display:block}
+  .finish-banner .big{font-family:var(--display);font-size:30px;text-transform:uppercase;letter-spacing:.5px}
+  .finish-banner p{margin-top:6px;font-size:14px;opacity:.95}
+
+  .reset-btn{
+    display:block;margin:22px auto 0;
+    color:var(--muted);font-size:14px;font-weight:600;
+    text-decoration:underline;padding:8px;
+  }
+
+  /* ---------- Chrono plein écran ---------- */
+  .timer-overlay{
+    position:fixed;inset:0;z-index:50;
+    background:var(--ink);color:var(--bg);
+    display:none;flex-direction:column;align-items:center;justify-content:center;
+    padding:24px;text-align:center;
+  }
+  .timer-overlay.show{display:flex}
+  .timer-label{font-weight:600;font-size:15px;opacity:.7;letter-spacing:.3px}
+  .timer-exo{font-weight:700;font-size:18px;margin-top:4px;max-width:320px}
+  .timer-clock{
+    font-family:var(--display);
+    font-size:clamp(110px,34vw,180px);
+    line-height:1;margin:24px 0;
+    font-variant-numeric:tabular-nums;
+    color:var(--accent);
+  }
+  .timer-clock.ending{color:var(--bg)}
+  .timer-bar{width:min(320px,80vw);height:8px;background:rgba(128,128,128,.35);border-radius:4px;overflow:hidden;margin-bottom:34px}
+  .timer-bar span{display:block;height:100%;background:var(--accent);width:100%}
+  .timer-actions{display:flex;gap:14px}
+  .t-btn{
+    padding:16px 22px;border-radius:14px;font-weight:700;font-size:16px;
+    border:2px solid rgba(128,128,128,.5);color:var(--bg);
+    min-width:110px;
+  }
+  .t-btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important}
+  }
+</style>
+
+<!-- ======== ACCUEIL ======== -->
+<main class="wrap" id="view-home">
+  <div class="hero">
+    <h1>Programme<br>d'Armand</h1>
+    <p class="sub">3 séances par semaine. Coche tes séries, le chrono de repos se lance tout seul.</p>
+    <div class="streak" id="streak-box" hidden>
+      <b id="streak-count">0</b> séances terminées
+    </div>
+  </div>
+
+  <div class="sessions" id="session-list"></div>
+
+  <div class="tips">
+    <h3>Les règles du jeu</h3>
+    <ul>
+      <li>Technique parfaite avant de rajouter du poids</li>
+      <li>Si tu finis toutes les séries au max des reps, +2,5 kg la prochaine fois</li>
+      <li>Minimum 48 h entre deux séances de muscu</li>
+      <li>Jour legs = VTT tranquille le soir</li>
+      <li>Dors 8-9 h, c'est là que tu prends du muscle</li>
+    </ul>
+  </div>
+</main>
+
+<!-- ======== SÉANCE ======== -->
+<main class="wrap" id="view-session" hidden>
+  <div class="topbar">
+    <button class="back-btn" id="back-btn">&#8592; Retour</button>
+  </div>
+  <h1 class="session-title" id="s-title"></h1>
+  <p class="session-meta" id="s-meta"></p>
+  <div class="global-progress"><span id="s-progress"></span></div>
+  <div id="exo-list"></div>
+  <div class="finish-banner" id="finish-banner">
+    <div class="big">Séance terminée</div>
+    <p>Bien joué. Hydrate-toi, mange, et repose-toi : c'est maintenant que tes muscles se construisent.</p>
+  </div>
+  <button class="reset-btn" id="reset-btn">Remettre la séance à zéro</button>
+</main>
+
+<!-- ======== CHRONO ======== -->
+<div class="timer-overlay" id="timer" role="dialog" aria-label="Chrono de repos">
+  <div class="timer-label">Repos</div>
+  <div class="timer-exo" id="timer-exo"></div>
+  <div class="timer-clock" id="timer-clock">1:30</div>
+  <div class="timer-bar"><span id="timer-fill"></span></div>
+  <div class="timer-actions">
+    <button class="t-btn" id="timer-add">+15 s</button>
+    <button class="t-btn primary" id="timer-skip">C'est reparti</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ---------- Données du programme ---------- */
+/* Les ids (upper, lower, full) servent de clés localStorage : ne pas les renommer sans migration */
+const PROGRAM = [
+  {
+    id:"upper",
+    num:"1",
+    name:"Push + Pull",
+    day:"Lundi",
+    exos:[
+      {name:"Développé couché haltères", sets:4, reps:"8-10", rest:120, note:"Descente contrôlée, coudes à ~45°"},
+      {name:"Tractions (ou tirage vertical)", sets:4, reps:"6-10", rest:120, note:"Si trop dur : tirage vertical machine"},
+      {name:"Développé épaules haltères", sets:3, reps:"10", rest:90, note:""},
+      {name:"Rowing barre ou machine", sets:3, reps:"10-12", rest:90, note:"Dos plat, tire vers le nombril"},
+      {name:"Curl biceps", sets:3, reps:"12", rest:60, note:""},
+      {name:"Extensions triceps", sets:3, reps:"12", rest:60, note:""}
+    ]
+  },
+  {
+    id:"lower",
+    num:"2",
+    name:"Legs",
+    day:"Mercredi",
+    exos:[
+      {name:"Squat (barre ou goblet)", sets:4, reps:"8-10", rest:120, note:"Profondeur cuisses parallèles, dos droit"},
+      {name:"Presse à cuisses", sets:3, reps:"10-12", rest:90, note:""},
+      {name:"Fentes marchées haltères", sets:3, reps:"10 / jambe", rest:90, note:""},
+      {name:"Leg curl (ischios)", sets:3, reps:"12", rest:60, note:""},
+      {name:"Mollets debout", sets:3, reps:"15", rest:45, note:""},
+      {name:"Gainage planche", sets:3, reps:"45 s", rest:45, note:"Corps bien aligné, ne creuse pas le dos"}
+    ]
+  },
+  {
+    id:"full",
+    num:"3",
+    name:"Full body",
+    day:"Vendredi ou samedi",
+    exos:[
+      {name:"Soulevé de terre roumain", sets:3, reps:"10", rest:120, note:"Léger. Technique parfaite obligatoire"},
+      {name:"Développé incliné", sets:3, reps:"10", rest:90, note:""},
+      {name:"Tirage horizontal", sets:3, reps:"12", rest:90, note:""},
+      {name:"Élévations latérales", sets:3, reps:"15", rest:45, note:"Léger, sans balancier"},
+      {name:"Relevés de jambes suspendu", sets:3, reps:"12", rest:60, note:""}
+    ]
+  }
+];
+
+/* ---------- Stockage local (par téléphone) ---------- */
+const KEY = "armand-programme-v1";
+let state = { sessions:{}, completed:0 };
+try {
+  const raw = localStorage.getItem(KEY);
+  if (raw) {
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") {
+      state.sessions = parsed.sessions || {};
+      state.completed = parsed.completed || 0;
+    }
+  }
+} catch(e){ /* stockage indisponible : l'app marche quand même, sans mémoire */ }
+
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+}
+function sessionState(id){
+  if (!state.sessions[id]) state.sessions[id] = { checks:{}, weights:{}, counted:false };
+  return state.sessions[id];
+}
+
+/* ---------- Accueil ---------- */
+const homeEl = document.getElementById("view-home");
+const sessionEl = document.getElementById("view-session");
+const listEl = document.getElementById("session-list");
+
+function sessionPct(s){
+  const st = sessionState(s.id);
+  let done = 0, total = 0;
+  s.exos.forEach((ex, i) => {
+    total += ex.sets;
+    const arr = st.checks[i] || [];
+    done += arr.filter(Boolean).length;
+  });
+  return total ? Math.round(done / total * 100) : 0;
+}
+
+function renderHome(){
+  listEl.innerHTML = "";
+  PROGRAM.forEach(s => {
+    const pct = sessionPct(s);
+    const btn = document.createElement("button");
+    btn.className = "session-card" + (pct === 100 ? " complete" : "");
+    btn.innerHTML =
+      '<div class="session-num">' + s.num + '</div>' +
+      '<div class="session-info">' +
+        '<h2>' + s.name + '</h2>' +
+        '<p>' + s.day + ' &middot; ' + s.exos.length + ' exercices</p>' +
+        '<div class="session-progress"><span style="width:' + pct + '%"></span></div>' +
+      '</div>' +
+      '<div class="session-check">&#10003;</div>';
+    btn.addEventListener("click", () => openSession(s.id));
+    listEl.appendChild(btn);
+  });
+  const sb = document.getElementById("streak-box");
+  if (state.completed > 0) {
+    sb.hidden = false;
+    document.getElementById("streak-count").textContent = state.completed;
+  }
+}
+
+/* ---------- Séance ---------- */
+let currentId = null;
+const exoListEl = document.getElementById("exo-list");
+const progressEl = document.getElementById("s-progress");
+const bannerEl = document.getElementById("finish-banner");
+
+function openSession(id){
+  currentId = id;
+  const s = PROGRAM.find(x => x.id === id);
+  document.getElementById("s-title").textContent = s.name;
+  document.getElementById("s-meta").textContent = s.day + " · repos auto après chaque série";
+  renderExos(s);
+  homeEl.hidden = true;
+  sessionEl.hidden = false;
+  window.scrollTo(0, 0);
+}
+
+function renderExos(s){
+  const st = sessionState(s.id);
+  exoListEl.innerHTML = "";
+  s.exos.forEach((ex, i) => {
+    const checks = st.checks[i] || [];
+    const allDone = checks.filter(Boolean).length >= ex.sets;
+    const card = document.createElement("div");
+    card.className = "exo" + (allDone ? " done-exo" : "");
+
+    let setsHtml = "";
+    for (let k = 0; k < ex.sets; k++){
+      const ck = checks[k] ? " checked" : "";
+      setsHtml += '<button class="set-btn' + ck + '" data-exo="' + i + '" data-set="' + k + '" aria-pressed="' + (checks[k] ? "true" : "false") + '" aria-label="Série ' + (k+1) + '">' + (checks[k] ? "✓" : "S" + (k+1)) + '</button>';
+    }
+
+    const w = st.weights[i] != null ? st.weights[i] : "";
+    card.innerHTML =
+      '<div class="exo-head">' +
+        '<div>' +
+          '<div class="exo-name">' + ex.name + '</div>' +
+          '<div class="exo-detail">' + ex.sets + ' séries × ' + ex.reps + ' reps</div>' +
+        '</div>' +
+        '<span class="exo-rest">repos ' + formatRest(ex.rest) + '</span>' +
+      '</div>' +
+      (ex.note ? '<div class="exo-note">' + ex.note + '</div>' : '') +
+      '<div class="sets-row">' + setsHtml +
+        '<div class="weight-box"><input type="number" inputmode="decimal" min="0" step="0.5" value="' + w + '" data-weight="' + i + '" aria-label="Charge en kilos"><label>kg</label></div>' +
+      '</div>';
+    exoListEl.appendChild(card);
+  });
+
+  exoListEl.querySelectorAll(".set-btn").forEach(b => {
+    b.addEventListener("click", onSetTap);
+  });
+  exoListEl.querySelectorAll("input[data-weight]").forEach(inp => {
+    inp.addEventListener("change", e => {
+      const i = e.target.getAttribute("data-weight");
+      sessionState(currentId).weights[i] = e.target.value;
+      save();
+    });
+  });
+  updateProgress();
+}
+
+function onSetTap(e){
+  const btn = e.currentTarget;
+  const exoIdx = parseInt(btn.getAttribute("data-exo"), 10);
+  const setIdx = parseInt(btn.getAttribute("data-set"), 10);
+  const s = PROGRAM.find(x => x.id === currentId);
+  const st = sessionState(currentId);
+  if (!st.checks[exoIdx]) st.checks[exoIdx] = [];
+  const wasChecked = !!st.checks[exoIdx][setIdx];
+  st.checks[exoIdx][setIdx] = !wasChecked;
+  save();
+  renderExos(s);
+  if (!wasChecked) {
+    const ex = s.exos[exoIdx];
+    const isLastSet = st.checks[exoIdx].filter(Boolean).length >= ex.sets;
+    const pct = sessionPct(s);
+    if (pct >= 100) {
+      markCompleted(s);
+    } else if (!isLastSetOfSession(s, st)) {
+      startTimer(ex.rest, ex.name);
+    }
+  }
+}
+
+function isLastSetOfSession(s, st){
+  let done = 0, total = 0;
+  s.exos.forEach((ex, i) => {
+    total += ex.sets;
+    done += (st.checks[i] || []).filter(Boolean).length;
+  });
+  return done >= total;
+}
+
+function markCompleted(s){
+  const st = sessionState(s.id);
+  if (!st.counted) {
+    st.counted = true;
+    state.completed = (state.completed || 0) + 1;
+    save();
+  }
+  bannerEl.classList.add("show");
+  vibrate([120, 80, 120]);
+}
+
+function updateProgress(){
+  const s = PROGRAM.find(x => x.id === currentId);
+  const pct = sessionPct(s);
+  progressEl.style.width = pct + "%";
+  bannerEl.classList.toggle("show", pct >= 100);
+}
+
+document.getElementById("back-btn").addEventListener("click", () => {
+  sessionEl.hidden = true;
+  homeEl.hidden = false;
+  renderHome();
+  window.scrollTo(0, 0);
+});
+
+document.getElementById("reset-btn").addEventListener("click", () => {
+  if (!confirm("Remettre cette séance à zéro ? (les charges en kg sont conservées)")) return;
+  const st = sessionState(currentId);
+  st.checks = {};
+  st.counted = false;
+  save();
+  const s = PROGRAM.find(x => x.id === currentId);
+  renderExos(s);
+  bannerEl.classList.remove("show");
+});
+
+/* ---------- Chrono ---------- */
+const timerEl = document.getElementById("timer");
+const clockEl = document.getElementById("timer-clock");
+const fillEl = document.getElementById("timer-fill");
+const timerExoEl = document.getElementById("timer-exo");
+let timerInt = null, remaining = 0, totalRest = 0;
+
+function formatRest(sec){
+  if (sec < 60) return sec + " s";
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return s ? m + " min " + (s < 10 ? "0" : "") + s : m + " min";
+}
+function formatClock(sec){
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return m + ":" + (s < 10 ? "0" : "") + s;
+}
+
+function startTimer(sec, exoName){
+  stopTimer();
+  remaining = sec;
+  totalRest = sec;
+  timerExoEl.textContent = exoName;
+  clockEl.textContent = formatClock(remaining);
+  clockEl.classList.remove("ending");
+  fillEl.style.width = "100%";
+  timerEl.classList.add("show");
+  timerInt = setInterval(tick, 1000);
+}
+function tick(){
+  remaining--;
+  if (remaining <= 0) {
+    endTimer();
+    return;
+  }
+  clockEl.textContent = formatClock(remaining);
+  fillEl.style.width = (remaining / totalRest * 100) + "%";
+  if (remaining <= 5) {
+    clockEl.classList.add("ending");
+    beep(880, 0.08);
+  }
+}
+function endTimer(){
+  stopTimer();
+  clockEl.textContent = "0:00";
+  fillEl.style.width = "0%";
+  beep(660, 0.15);
+  setTimeout(() => beep(880, 0.25), 180);
+  vibrate([200, 100, 200]);
+  setTimeout(closeTimer, 900);
+}
+function stopTimer(){
+  if (timerInt) { clearInterval(timerInt); timerInt = null; }
+}
+function closeTimer(){
+  stopTimer();
+  timerEl.classList.remove("show");
+}
+document.getElementById("timer-skip").addEventListener("click", closeTimer);
+document.getElementById("timer-add").addEventListener("click", () => {
+  remaining += 15;
+  totalRest = Math.max(totalRest, remaining);
+  clockEl.textContent = formatClock(remaining);
+  clockEl.classList.remove("ending");
+});
+
+/* ---------- Son + vibration ---------- */
+let audioCtx = null;
+function beep(freq, dur){
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.frequency.value = freq;
+    o.type = "sine";
+    g.gain.setValueAtTime(0.001, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.25, audioCtx.currentTime + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + dur + 0.05);
+  } catch(e){}
+}
+function vibrate(pattern){
+  try { if (navigator.vibrate) navigator.vibrate(pattern); } catch(e){}
+}
+
+/* ---------- Init ---------- */
+renderHome();
+</script>
