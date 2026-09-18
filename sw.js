@@ -1,7 +1,7 @@
 "use strict";
 
 /* Incrémenter la version à chaque mise à jour de l'app pour forcer le rafraîchissement du cache */
-const CACHE = "armand-v3.1.0";
+const CACHE = "armand-v3.2.0";
 
 const PRECACHE = [
   "./",

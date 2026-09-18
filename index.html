@@ -496,40 +496,40 @@ const PROGRAM = [
   {
     id:"upper",
     num:"1",
-    name:"Push + Pull",
+    name:"Push",
     day:"Lundi",
     slots:[
-      {label:"Pectoraux", sets:4, reps:"8-10", rest:120, options:["dev-couche-halteres","dc-machine","pompes","ecarte-halteres","pec-deck","dips"]},
-      {label:"Dos - tirage vertical", sets:4, reps:"6-10", rest:120, options:["tractions","tirage-vertical","tractions-assistees","pullover-poulie"]},
-      {label:"Épaules", sets:3, reps:"10", rest:90, options:["dev-epaules-halteres","dev-epaules-machine","elevations-laterales","elevations-frontales","oiseau-banc","face-pull"]},
-      {label:"Dos - tirage horizontal", sets:3, reps:"10-12", rest:90, options:["rowing-machine","tirage-horizontal","rowing-haltere"]},
-      {label:"Bras", sets:3, reps:"12", rest:60, options:["curl-halteres","curl-marteau","curl-pupitre","triceps-poulie","triceps-overhead","dips-banc"]}
+      {label:"Pectoraux - lourd", sets:4, reps:"8-10", rest:120, options:["dev-couche-halteres","dc-machine","pompes","dips"]},
+      {label:"Pectoraux - incliné / écarté", sets:3, reps:"10", rest:90, options:["dev-incline","ecarte-poulie","ecarte-halteres","pec-deck"]},
+      {label:"Épaules", sets:3, reps:"10", rest:90, options:["dev-epaules-halteres","dev-epaules-machine","elevations-laterales","elevations-frontales"]},
+      {label:"Triceps", sets:3, reps:"12", rest:60, options:["triceps-poulie","triceps-overhead","dips-banc"]},
+      {label:"Rappel dos", sets:3, reps:"10-12", rest:90, options:["tirage-vertical","tractions","rowing-machine","tirage-horizontal"]}
+    ]
+  },
+  {
+    id:"full",
+    num:"2",
+    name:"Pull",
+    day:"Mercredi",
+    slots:[
+      {label:"Dos - tirage vertical", sets:4, reps:"6-10", rest:120, options:["tractions","tirage-vertical","tractions-assistees"]},
+      {label:"Dos - tirage horizontal", sets:3, reps:"10-12", rest:90, options:["rowing-machine","tirage-horizontal","rowing-haltere","pullover-poulie"]},
+      {label:"Arrière d'épaules / posture", sets:3, reps:"15", rest:60, options:["face-pull","oiseau-banc"]},
+      {label:"Biceps", sets:3, reps:"12", rest:60, options:["curl-halteres","curl-marteau","curl-pupitre"]},
+      {label:"Rappel pecs / épaules", sets:3, reps:"10", rest:90, options:["pompes","dc-machine","dev-incline","dev-epaules-machine"]}
     ]
   },
   {
     id:"lower",
-    num:"2",
+    num:"3",
     name:"Legs",
-    day:"Mercredi",
+    day:"Vendredi ou samedi",
     slots:[
       {label:"Cuisses - lourd", sets:4, reps:"10-12", rest:120, options:["presse-inclinee","presse-horizontale"]},
       {label:"Cuisses - une jambe", sets:3, reps:"10 / jambe", rest:90, options:["fentes-marchees","fentes-bulgares","step-up"]},
       {label:"Quadriceps", sets:3, reps:"12", rest:60, options:["leg-extension"]},
       {label:"Ischios / fessiers", sets:3, reps:"12", rest:60, options:["leg-curl-allonge","leg-curl-assis","leg-curl-debout","hip-thrust"]},
-      {label:"Abdos", sets:3, reps:"45 s", rest:45, options:["planche","crunch-poulie","releves-genoux","crunchs-sol","mountain-climbers"]}
-    ]
-  },
-  {
-    id:"full",
-    num:"3",
-    name:"Full body",
-    day:"Vendredi ou samedi",
-    slots:[
-      {label:"Dos - tirage vertical", sets:3, reps:"10-12", rest:90, options:["tirage-vertical","tractions","tractions-assistees","pullover-poulie"]},
-      {label:"Pectoraux", sets:3, reps:"10", rest:90, options:["dev-incline","ecarte-poulie","dc-machine","pec-deck","pompes"]},
-      {label:"Dos - tirage horizontal", sets:3, reps:"12", rest:90, options:["tirage-horizontal","rowing-machine","rowing-haltere","face-pull"]},
-      {label:"Abdos", sets:3, reps:"12", rest:60, options:["releves-jambes","releves-genoux","crunch-poulie","releves-jambes-allonge","crunchs-sol"]},
-      {label:"Obliques", sets:2, reps:"30 s / côté", rest:45, options:["planche-laterale","planche","rotation-poulie"]}
+      {label:"Abdos", sets:3, reps:"45 s", rest:45, options:["planche","planche-laterale","crunch-poulie","releves-genoux","releves-jambes","releves-jambes-allonge","crunchs-sol","rotation-poulie","mountain-climbers"]}
     ]
   }
 ];
@@ -761,7 +761,7 @@ function markCompleted(s){
       if (w != null && w !== "") entry.w = w;
       return entry;
     });
-    state.history.push({ d: new Date().toISOString().slice(0, 10), s: s.id, exos: exos });
+    state.history.push({ d: new Date().toISOString().slice(0, 10), s: s.id, n: s.name, exos: exos });
     save();
   }
   bannerEl.classList.add("show");
@@ -937,7 +937,7 @@ function renderProgress(){
       div.innerHTML =
         '<div class="log-head">' +
           '<span class="log-date">' + formatDate(entry.d) + '</span>' +
-          '<span class="log-session">' + (s ? s.name : entry.s) + '</span>' +
+          '<span class="log-session">' + (entry.n || (s ? s.name : entry.s)) + '</span>' +
         '</div>' +
         '<div class="log-detail">' + detail + '</div>';
       logEl.appendChild(div);

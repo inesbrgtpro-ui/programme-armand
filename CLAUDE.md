@@ -23,15 +23,16 @@ jusqu'ici "au feeling" en full body sans structure :
 
 ## Philosophie du programme (important)
 
-Format retenu : **PPL hybride sur 3 séances/semaine** — Push+Pull combiné,
-Legs, puis Full body.
+Format retenu (validé par Inès le 2026-09-18, remplace l'hybride initial) :
+**PPL + rappels sur 3 séances/semaine** — Push (lundi), Pull (mercredi),
+Legs (vendredi ou samedi).
 
-Pourquoi pas un PPL classique (Push / Pull / Legs sur 3 jours) : chaque muscle
-ne serait travaillé qu'1x/semaine, ce qui est sous-optimal pour progresser.
-Le PPL classique n'est efficace qu'à 5-6 séances/semaine, incompatible avec
-son VTT quasi quotidien. Le format hybride garde la logique Push/Pull/Legs
-tout en travaillant chaque muscle **2x par semaine**, avec des séances de
-45-60 min.
+Un PPL classique à 3 séances/semaine ne travaille chaque muscle qu'1x/semaine.
+Compromis retenu : des séances thématiques (plus simples, plus motivantes pour
+un ado) mais chaque séance Push/Pull se termine par **un exercice de rappel**
+de l'autre groupe (Push finit par un exo de dos, Pull par un exo de
+pecs/épaules) → fréquence ~1,5x/semaine par muscle. Les jambes ne passent
+qu'1x/semaine en salle, mais le VTT quasi quotidien complète largement.
 
 ## Le programme (contenu métier — ne pas modifier sans validation)
 
@@ -40,32 +41,39 @@ Pas de squat barre, pas de soulevé de terre, pas de rowing barre buste penché 
 les exercices dos/jambes se font sur machine ou poulie, buste soutenu ou
 vertical. Séances limitées à 5 exercices.
 
-### Séance 1 — Push + Pull (lundi)
-| Exercice | Type | Séries × Reps | Repos |
+Chaque créneau propose des alternatives (banque d'exercices) ; le premier
+exercice listé est le choix par défaut.
+
+### Séance 1 — Push (lundi), id `upper`
+| Créneau | Défaut | Séries × Reps | Repos |
 |---|---|---|---|
-| Développé couché haltères | Push | 4 × 8-10 | 2 min |
-| Tractions (ou tirage vertical) | Pull | 4 × 6-10 | 2 min |
-| Développé épaules haltères | Push | 3 × 10 | 1 min 30 |
-| Rowing machine (appui poitrine) | Pull | 3 × 10-12 | 1 min 30 |
-| Curl biceps | Pull | 3 × 12 | 1 min |
+| Pectoraux - lourd | Développé couché haltères | 4 × 8-10 | 2 min |
+| Pectoraux - incliné/écarté | Développé incliné haltères | 3 × 10 | 1 min 30 |
+| Épaules | Développé épaules haltères | 3 × 10 | 1 min 30 |
+| Triceps | Extensions triceps poulie | 3 × 12 | 1 min |
+| Rappel dos | Tirage vertical | 3 × 10-12 | 1 min 30 |
 
-### Séance 2 — Legs (mercredi)
-| Exercice | Séries × Reps | Repos |
-|---|---|---|
-| Presse à cuisses | 4 × 10-12 | 2 min |
-| Fentes marchées haltères | 3 × 10/jambe | 1 min 30 |
-| Leg extension (quadriceps) | 3 × 12 | 1 min |
-| Leg curl (ischios) | 3 × 12 | 1 min |
-| Gainage planche | 3 × 45 s | 45 s |
+### Séance 2 — Pull (mercredi), id `full`
+| Créneau | Défaut | Séries × Reps | Repos |
+|---|---|---|---|
+| Dos - tirage vertical | Tractions | 4 × 6-10 | 2 min |
+| Dos - tirage horizontal | Rowing machine (appui poitrine) | 3 × 10-12 | 1 min 30 |
+| Arrière d'épaules / posture | Face pull | 3 × 15 | 1 min |
+| Biceps | Curl biceps haltères | 3 × 12 | 1 min |
+| Rappel pecs/épaules | Pompes | 3 × 10 | 1 min 30 |
 
-### Séance 3 — Full body, axe dos + abdos (vendredi ou samedi)
-| Exercice | Séries × Reps | Repos |
-|---|---|---|
-| Tirage vertical (dos) | 3 × 10-12 | 1 min 30 |
-| Développé incliné | 3 × 10 | 1 min 30 |
-| Tirage horizontal (dos) | 3 × 12 | 1 min 30 |
-| Relevés de jambes suspendu (abdos) | 3 × 12 | 1 min |
-| Planche latérale (obliques) | 2 × 30 s/côté | 45 s |
+### Séance 3 — Legs (vendredi ou samedi), id `lower`
+| Créneau | Défaut | Séries × Reps | Repos |
+|---|---|---|---|
+| Cuisses - lourd | Presse à cuisses inclinée | 4 × 10-12 | 2 min |
+| Cuisses - une jambe | Fentes marchées haltères | 3 × 10/jambe | 1 min 30 |
+| Quadriceps | Leg extension | 3 × 12 | 1 min |
+| Ischios / fessiers | Leg curl allongé | 3 × 12 | 1 min |
+| Abdos | Gainage planche | 3 × 45 s | 45 s |
+
+Attention au mapping ids ↔ séances depuis le passage en PPL : `upper` = Push,
+`full` = Pull, `lower` = Legs (les ids de stockage n'ont pas bougé, seuls les
+noms affichés ont changé).
 
 ### Règles d'entraînement (affichées dans l'app)
 - Technique parfaite avant d'augmenter le poids
