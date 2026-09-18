@@ -1,7 +1,7 @@
 "use strict";
 
 /* Incrémenter la version à chaque mise à jour de l'app pour forcer le rafraîchissement du cache */
-const CACHE = "armand-v3.0.0";
+const CACHE = "armand-v3.1.0";
 
 const PRECACHE = [
   "./",
@@ -21,7 +21,13 @@ const PRECACHE = [
   "img/leg-extension.webp", "img/leg-curl-allonge.webp", "img/leg-curl-assis.webp",
   "img/planche.webp", "img/planche-laterale.webp",
   "img/crunch-poulie.webp", "img/releves-genoux.webp", "img/releves-jambes.webp",
-  "img/dev-incline.webp", "img/ecarte-poulie.webp"
+  "img/dev-incline.webp", "img/ecarte-poulie.webp",
+  "img/pec-deck.webp", "img/ecarte-halteres.webp", "img/dips.webp",
+  "img/pullover-poulie.webp", "img/elevations-frontales.webp", "img/oiseau-banc.webp",
+  "img/face-pull.webp", "img/curl-pupitre.webp", "img/triceps-overhead.webp",
+  "img/dips-banc.webp", "img/hip-thrust.webp", "img/leg-curl-debout.webp",
+  "img/crunchs-sol.webp", "img/releves-jambes-allonge.webp",
+  "img/rotation-poulie.webp", "img/mountain-climbers.webp"
 ];
 
 self.addEventListener("install", e => {

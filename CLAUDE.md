@@ -104,8 +104,8 @@ programme doit respecter ce principe.
 ### Fonctionnalités implémentées
 - Écran d'accueil : 3 cartes de séance avec % de progression + compteur de
   séances terminées + accès "Ta progression"
-- **Banque d'exercices** : chaque séance est une liste de créneaux
-  (label, séries, reps, repos) avec 1 à 3 exercices au choix ; bouton
+- **Banque d'exercices** (46 exercices) : chaque séance est une liste de
+  créneaux (label, séries, reps, repos) avec 1 à 6 exercices au choix ; bouton
   "Changer d'exercice" → sélecteur en bas d'écran (vignette, muscles, reps).
   Le premier exercice de `options` est le choix par défaut (= programme
   validé). Tout ajout à la banque doit respecter : dos protégé.

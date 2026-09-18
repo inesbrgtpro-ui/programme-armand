@@ -467,7 +467,23 @@ const EXOS = {
   "releves-genoux": {name:"Relevés de genoux suspendu", muscles:"Abdos", how:"Suspendu à la barre, monte les genoux vers la poitrine sans te balancer, redescends en contrôlant.", reps:"12"},
   "releves-jambes": {name:"Relevés de jambes suspendu", muscles:"Abdos", how:"Suspendu à la barre, jambes tendues. Monte-les jusqu'à l'horizontale sans te balancer, redescends lentement."},
   "dev-incline": {name:"Développé incliné haltères", muscles:"Haut des pectoraux, épaules", how:"Banc incliné à 30°, un haltère dans chaque main au niveau du haut de la poitrine. Pousse vers le haut, redescends en contrôlant."},
-  "ecarte-poulie": {name:"Écarté à la poulie", muscles:"Pectoraux", how:"Debout entre les deux poulies, un câble dans chaque main. Ramène les mains devant toi en arc de cercle, coudes légèrement fléchis, reviens lentement.", reps:"12-15"}
+  "ecarte-poulie": {name:"Écarté à la poulie", muscles:"Pectoraux", how:"Debout entre les deux poulies, un câble dans chaque main. Ramène les mains devant toi en arc de cercle, coudes légèrement fléchis, reviens lentement.", reps:"12-15"},
+  "pec-deck": {name:"Pec deck (butterfly)", muscles:"Pectoraux", how:"Assis, dos contre le dossier, mains sur les poignées. Ramène les bras devant toi en serrant les pectoraux, reviens lentement.", reps:"12"},
+  "ecarte-halteres": {name:"Écarté couché haltères", muscles:"Pectoraux", how:"Allongé sur le banc, un haltère dans chaque main au-dessus de toi. Écarte les bras en arc de cercle, coudes légèrement fléchis, puis referme comme pour serrer un tronc d'arbre. Reste léger.", reps:"12"},
+  "dips": {name:"Dips (ou dips assistés)", muscles:"Pectoraux, triceps", how:"En appui entre les deux barres, descends en fléchissant les coudes jusqu'à ce que tes épaules arrivent au niveau des coudes, puis remonte. Trop dur ? Utilise la machine à dips assistés.", reps:"6-10"},
+  "pullover-poulie": {name:"Pull-over à la poulie", muscles:"Grand dorsal", how:"Debout face à la poulie haute, bras presque tendus sur la barre. Ramène la barre vers tes cuisses en gardant les bras tendus et le buste immobile, puis remonte en contrôlant.", reps:"12-15"},
+  "elevations-frontales": {name:"Élévations frontales", muscles:"Avant des épaules", how:"Debout, un haltère léger dans chaque main devant les cuisses. Monte les bras devant toi jusqu'à l'horizontale, sans élan, redescends doucement.", reps:"12-15"},
+  "oiseau-banc": {name:"Oiseau sur banc incliné", muscles:"Arrière des épaules, haut du dos", how:"Poitrine appuyée sur un banc incliné, un haltère léger dans chaque main. Écarte les bras sur les côtés comme des ailes, redescends en contrôlant.", reps:"15"},
+  "face-pull": {name:"Face pull à la poulie", muscles:"Arrière des épaules, haut du dos", how:"Poulie à hauteur de visage, corde dans les mains. Tire la corde vers ton visage en écartant les coudes, serre les omoplates, reviens lentement. Reste léger : c'est un exercice de posture.", reps:"15"},
+  "curl-pupitre": {name:"Curl au pupitre (machine)", muscles:"Biceps", how:"Bras posés sur le pupitre, mains sur la barre ou les poignées. Monte en contractant les biceps, redescends lentement sans tendre complètement les coudes."},
+  "triceps-overhead": {name:"Extension triceps haltère (nuque)", muscles:"Triceps", how:"Assis, dos contre le dossier, un haltère tenu à deux mains derrière la tête. Tends les bras au-dessus de toi, coudes serrés près des oreilles, redescends en contrôlant."},
+  "dips-banc": {name:"Dips sur banc", muscles:"Triceps", how:"Mains sur le bord du banc derrière toi, jambes tendues devant. Descends en fléchissant les coudes, remonte en poussant. Garde le dos près du banc.", reps:"10-12"},
+  "hip-thrust": {name:"Hip thrust", muscles:"Fessiers, ischios", how:"Haut du dos appuyé sur un banc, pieds au sol, barre ou haltère sur les hanches (mets un coussin). Pousse les hanches vers le haut jusqu'à aligner le corps, redescends en contrôlant.", reps:"10-12"},
+  "leg-curl-debout": {name:"Leg curl debout", muscles:"Ischio-jambiers", how:"Debout face à la machine, une cheville derrière le boudin. Ramène le talon vers la fesse, redescends lentement, puis change de jambe.", reps:"12 / jambe"},
+  "crunchs-sol": {name:"Crunchs au sol", muscles:"Abdos", how:"Allongé sur le dos, genoux pliés, mains derrière la tête sans tirer sur la nuque. Enroule les épaules vers les genoux, souffle en montant, redescends en contrôlant.", reps:"15-20"},
+  "releves-jambes-allonge": {name:"Relevés de jambes au sol", muscles:"Abdos", how:"Allongé sur le dos, mains sous les fesses. Monte les jambes tendues à la verticale, redescends-les sans toucher le sol. Plie légèrement les genoux si c'est trop dur.", reps:"12-15"},
+  "rotation-poulie": {name:"Rotations à la poulie", muscles:"Obliques", how:"Debout de profil, poulie à hauteur de poitrine, bras tendus devant toi. Tourne le buste d'un côté en gardant les hanches fixes, reviens en contrôlant, puis change de côté. Reste léger.", reps:"12 / côté"},
+  "mountain-climbers": {name:"Mountain climbers", muscles:"Abdos, cardio", how:"En position de pompe, ramène un genou vers la poitrine puis l'autre, en alternant rapidement. Garde le dos plat et les hanches basses.", reps:"30 s"}
 };
 
 /* ---------- Programme ----------
@@ -483,11 +499,11 @@ const PROGRAM = [
     name:"Push + Pull",
     day:"Lundi",
     slots:[
-      {label:"Pectoraux", sets:4, reps:"8-10", rest:120, options:["dev-couche-halteres","dc-machine","pompes"]},
-      {label:"Dos - tirage vertical", sets:4, reps:"6-10", rest:120, options:["tractions","tirage-vertical","tractions-assistees"]},
-      {label:"Épaules", sets:3, reps:"10", rest:90, options:["dev-epaules-halteres","dev-epaules-machine","elevations-laterales"]},
+      {label:"Pectoraux", sets:4, reps:"8-10", rest:120, options:["dev-couche-halteres","dc-machine","pompes","ecarte-halteres","pec-deck","dips"]},
+      {label:"Dos - tirage vertical", sets:4, reps:"6-10", rest:120, options:["tractions","tirage-vertical","tractions-assistees","pullover-poulie"]},
+      {label:"Épaules", sets:3, reps:"10", rest:90, options:["dev-epaules-halteres","dev-epaules-machine","elevations-laterales","elevations-frontales","oiseau-banc","face-pull"]},
       {label:"Dos - tirage horizontal", sets:3, reps:"10-12", rest:90, options:["rowing-machine","tirage-horizontal","rowing-haltere"]},
-      {label:"Bras", sets:3, reps:"12", rest:60, options:["curl-halteres","curl-marteau","triceps-poulie"]}
+      {label:"Bras", sets:3, reps:"12", rest:60, options:["curl-halteres","curl-marteau","curl-pupitre","triceps-poulie","triceps-overhead","dips-banc"]}
     ]
   },
   {
@@ -499,8 +515,8 @@ const PROGRAM = [
       {label:"Cuisses - lourd", sets:4, reps:"10-12", rest:120, options:["presse-inclinee","presse-horizontale"]},
       {label:"Cuisses - une jambe", sets:3, reps:"10 / jambe", rest:90, options:["fentes-marchees","fentes-bulgares","step-up"]},
       {label:"Quadriceps", sets:3, reps:"12", rest:60, options:["leg-extension"]},
-      {label:"Ischios", sets:3, reps:"12", rest:60, options:["leg-curl-allonge","leg-curl-assis"]},
-      {label:"Abdos", sets:3, reps:"45 s", rest:45, options:["planche","crunch-poulie","releves-genoux"]}
+      {label:"Ischios / fessiers", sets:3, reps:"12", rest:60, options:["leg-curl-allonge","leg-curl-assis","leg-curl-debout","hip-thrust"]},
+      {label:"Abdos", sets:3, reps:"45 s", rest:45, options:["planche","crunch-poulie","releves-genoux","crunchs-sol","mountain-climbers"]}
     ]
   },
   {
@@ -509,11 +525,11 @@ const PROGRAM = [
     name:"Full body",
     day:"Vendredi ou samedi",
     slots:[
-      {label:"Dos - tirage vertical", sets:3, reps:"10-12", rest:90, options:["tirage-vertical","tractions","tractions-assistees"]},
-      {label:"Pectoraux", sets:3, reps:"10", rest:90, options:["dev-incline","ecarte-poulie","dc-machine"]},
-      {label:"Dos - tirage horizontal", sets:3, reps:"12", rest:90, options:["tirage-horizontal","rowing-machine","rowing-haltere"]},
-      {label:"Abdos", sets:3, reps:"12", rest:60, options:["releves-jambes","releves-genoux","crunch-poulie"]},
-      {label:"Obliques", sets:2, reps:"30 s / côté", rest:45, options:["planche-laterale","planche"]}
+      {label:"Dos - tirage vertical", sets:3, reps:"10-12", rest:90, options:["tirage-vertical","tractions","tractions-assistees","pullover-poulie"]},
+      {label:"Pectoraux", sets:3, reps:"10", rest:90, options:["dev-incline","ecarte-poulie","dc-machine","pec-deck","pompes"]},
+      {label:"Dos - tirage horizontal", sets:3, reps:"12", rest:90, options:["tirage-horizontal","rowing-machine","rowing-haltere","face-pull"]},
+      {label:"Abdos", sets:3, reps:"12", rest:60, options:["releves-jambes","releves-genoux","crunch-poulie","releves-jambes-allonge","crunchs-sol"]},
+      {label:"Obliques", sets:2, reps:"30 s / côté", rest:45, options:["planche-laterale","planche","rotation-poulie"]}
     ]
   }
 ];
