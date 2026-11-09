@@ -89,7 +89,7 @@ programme doit respecter ce principe.
 ## État actuel
 
 > Journal de passation complet (historique, runbook, pièges techniques,
-> pipeline d'images) : voir **JOURNAL.md** à la racine du dossier.
+> pipeline d'images) : voir **passation/JOURNAL.md**.
 
 - **PWA installable** (service worker v3.2.2 au 2026-09-18), en ligne sur
   GitHub Pages : https://inesbrgtpro-ui.github.io/programme-armand/
