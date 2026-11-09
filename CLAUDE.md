@@ -88,26 +88,34 @@ programme doit respecter ce principe.
 
 ## État actuel
 
-- **v2 : PWA installable**, en ligne sur GitHub Pages :
-  https://inesbrgtpro-ui.github.io/programme-armand/
+> Journal de passation complet (historique, runbook, pièges techniques,
+> pipeline d'images) : voir **JOURNAL.md** à la racine du dossier.
+
+- **PWA installable** (service worker v3.2.2 au 2026-09-18), en ligne sur
+  GitHub Pages : https://inesbrgtpro-ui.github.io/programme-armand/
   (dépôt : https://github.com/inesbrgtpro-ui/programme-armand, compte inesbrgtpro-ui).
   Installée sur l'iPhone d'Armand via Safari → Partager → "Sur l'écran d'accueil".
-  Chaque `git push` sur `main` met le site à jour automatiquement.
+  Chaque `git push` sur `main` met le site à jour automatiquement (~1 min).
 - Fichiers : `index.html` (app complète, HTML/CSS/JS vanilla, aucune dépendance
   hors Google Fonts), `manifest.webmanifest`, `sw.js` (service worker,
   cache-first pour usage hors ligne — **incrémenter la constante `CACHE` à
   chaque mise à jour**), `icons/` (haltère orange sur fond sombre).
-- Séances renommées "Push + Pull / Legs / Full body" (ids de stockage
-  inchangés : `upper`, `lower`, `full`).
+- Séances affichées "Push / Pull / Legs" (ids de stockage inchangés :
+  `upper` = Push, `full` = Pull, `lower` = Legs).
 - Illustrations d'exercices dans `img/`, nommées par slug d'exercice
   (`img/<slug>.webp`, ex. `img/leg-extension.webp`). Images générées en IA
-  (style flat, silhouette sombre + orange, deux phases du mouvement).
+  (style flat, silhouette sombre + orange, deux phases du mouvement) —
+  gabarit de prompt et pipeline dans JOURNAL.md.
 - Mobile-first (utilisé sur téléphone à la salle), thème clair/sombre auto
   (`prefers-color-scheme`), reduced-motion respecté, safe areas iOS gérées.
-- L'ancien artifact Claude (https://claude.ai/artifact/QKaidCkE3d5w19PyzkhEuR)
-  reste en ligne comme aperçu, mais la version de référence est la PWA ;
-  ses données localStorage sont indépendantes (origine différente).
+- Jamais de `confirm()` / `alert()` / `prompt()` : bloqués en PWA installée
+  iOS (le reset utilise une confirmation par double appui, à réutiliser).
+- Un ancien artifact claude.ai existe comme aperçu mais n'est **plus
+  maintenable hors de la conversation Claude d'origine** : la PWA est la
+  seule version de référence (détail dans JOURNAL.md).
 - Test local : serveur `python3 -m http.server 8642` (config `.claude/launch.json`).
+  Pendant le dev, purger le service worker avant de vérifier un changement
+  (sinon l'ancienne version est servie depuis le cache) — commande dans JOURNAL.md.
 
 ### Fonctionnalités implémentées
 - Écran d'accueil : 3 cartes de séance avec % de progression + compteur de
@@ -157,6 +165,18 @@ programme doit respecter ce principe.
   servent de clés de stockage : ne pas les renommer sans migration
   (une migration v1→v2 existe déjà dans le script en exemple).
 
+## Décisions tranchées (ne pas rediscuter sauf demande explicite d'Inès)
+
+| Date | Décision |
+|---|---|
+| 2026-09-18 | Dos protégé : pas de squat barre, pas de soulevé de terre, pas de rowing barre buste penché. Vaut pour toute la banque d'exercices. |
+| 2026-09-18 | 5 exercices maximum par séance. |
+| 2026-09-18 | Format PPL + rappels (remplace l'hybride initial) : Push lundi, Pull mercredi, Legs vendredi/samedi, rappel croisé en fin de Push et de Pull. |
+| 2026-09-18 | Hébergement GitHub Pages, dépôt public assumé (code + prénom d'Armand uniquement, rien de sensible). |
+| 2026-09-18 | Passage artifact → PWA avec données repart de zéro (pas de migration inter-origines ; Armand retape ses charges une fois). |
+| 2026-09-18 | Connecteur Garmin : refusé en l'état (exigerait un backend + programme développeur Garmin, disproportionné). Alternative acceptable si demandée : suivi VTT manuel dans le journal. |
+| Permanent | Vanilla JS/CSS, fichier unique, pas de framework. Pas d'emojis. Français, tutoiement. |
+
 ## Pistes d'évolution (backlog)
 
 - [x] Renommer les séances en "Push + Pull / Legs / Full body" dans l'UI
@@ -167,8 +187,11 @@ programme doit respecter ce principe.
       visualiser la progression dans le temps
 - [x] Graphique d'évolution des charges par exercice (sparklines)
 - [x] Substitutions d'exercices (banque d'exercices par créneau)
-- [ ] Export/import des données (changement de téléphone)
+- [ ] Export/import des données (changement de téléphone) — priorité suggérée :
+      c'est la seule protection contre une perte de données (localStorage)
 - [ ] Mode "semaine" : planning lundi/mercredi/vendredi avec rappel du jour
+- [ ] Suivi VTT manuel dans le journal (durée, ressenti, 2 taps) — alternative
+      retenue au connecteur Garmin, proposée à Inès le 2026-09-18, pas encore validée
 - [ ] Volet nutrition/récupération simple (plus tard : le projet global couvre
       aussi révisions, finance et santé)
 
